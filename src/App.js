@@ -1,7 +1,7 @@
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { Dashboard } from './pages';
+import { Home } from './pages';
 
 function Copyright() {
   return (
@@ -16,5 +16,5 @@ function Copyright() {
 }
 
 export default function App() {
-  return <Dashboard />;
+  return <Home />;
 }

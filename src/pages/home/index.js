@@ -20,7 +20,7 @@ import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Chart from '../../components/chart';
 import Deposits from '../../components/deposits';
-import { mainListItems, secondaryListItems } from '../../components/listItems';
+import { mainListItems } from '../../components/listItems';
 import Orders from '../../components/orders';
 
 function Copyright(props) {
@@ -139,7 +139,6 @@ export default function Home() {
             <Divider />
             <List>{mainListItems}</List>
             <Divider />
-            <List>{secondaryListItems}</List>
           </Drawer>
           <Box
             component="main"
@@ -192,8 +191,11 @@ export default function Home() {
                   </Grid>
                   {/* Dashboard contents ends */}
                 </Route>
-                <Route path="/new-prod">
+                <Route path="/products/create">
                   <h1>Add new prod form</h1>
+                </Route>
+                <Route path="/products/all">
+                  <h1>Table of all products</h1>
                 </Route>
               </Switch>
               <Copyright sx={{ pt: 4 }} />

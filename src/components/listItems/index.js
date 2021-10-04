@@ -1,9 +1,7 @@
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import BarChartIcon from '@mui/icons-material/BarChart';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import LayersIcon from '@mui/icons-material/Layers';
-import PeopleIcon from '@mui/icons-material/People';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import WindowIcon from '@mui/icons-material/Window';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -13,39 +11,23 @@ import { Link } from 'react-router-dom';
 
 export const mainListItems = (
   <div>
-    <Link to="/">
-      <ListItem button>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItem>
-    </Link>
-    <Link to="/new-prod">
-      <ListItem button>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Add new prod" />
-      </ListItem>
-    </Link>
-    <ListItem button>
+    <ListItem button component={Link} to="/">
       <ListItemIcon>
-        <PeopleIcon />
+        <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/products/create">
       <ListItemIcon>
-        <BarChartIcon />
+        <AddBoxIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Add New Product" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to="/products/all">
       <ListItemIcon>
-        <LayersIcon />
+        <WindowIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="All Products" />
     </ListItem>
   </div>
 );

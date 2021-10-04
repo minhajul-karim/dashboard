@@ -1,7 +1,7 @@
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import Title from './Title';
+import Title from '../title';
 
 function preventDefault(event) {
   event.preventDefault();

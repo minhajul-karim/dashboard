@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
-import Title from './Title';
+import Title from '../title';
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {

@@ -17,10 +17,10 @@ import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import Chart from './Chart';
-import Deposits from './Deposits';
-import { mainListItems, secondaryListItems } from './listItems';
-import Orders from './Orders';
+import Chart from '../chart';
+import Deposits from '../deposits';
+import { mainListItems, secondaryListItems } from '../listItems';
+import Orders from '../orders';
 
 function Copyright(props) {
   return (

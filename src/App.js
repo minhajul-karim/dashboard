@@ -1,7 +1,7 @@
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import Dashboard from './pages/Dashboard';
+import { Dashboard } from './pages';
 
 function Copyright() {
   return (

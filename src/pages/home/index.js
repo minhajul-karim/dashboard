@@ -15,6 +15,7 @@ import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Copyright, Dashboard } from '../../components';
 import { mainListItems } from '../../components/listItems';
+import AddProduct from '../products/AddProduct';
 import { AppBar, Drawer } from './styles/home';
 
 const mdTheme = createTheme();
@@ -92,7 +93,7 @@ export default function Home() {
                   <Dashboard />
                 </Route>
                 <Route path="/products/create">
-                  <h1>Add new prod form</h1>
+                  <AddProduct />
                 </Route>
                 <Route path="/products/all">
                   <h1>Table of all products</h1>

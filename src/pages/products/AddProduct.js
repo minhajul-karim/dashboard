@@ -1,5 +1,5 @@
-import React from 'react';
+import { AddProductForm } from '../../components';
 
 export default function AddProduct() {
-  return <p>Add Prod form</p>;
+  return <AddProductForm />;
 }

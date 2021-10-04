@@ -1,4 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import Home from './home';
-import AddProduct from './products/AddProduct';
 
-export { AddProduct, Home };
+export { Home };

@@ -49,7 +49,7 @@ export default function HomeContainer({ children }) {
                 <MenuIcon />
               </IconButton>
               <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                Dashboard
+                Goods
               </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">

@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import InputField from '../inputField';
 
 const initialValues = {
   productName: '',
@@ -27,9 +27,15 @@ const AddProductSchema = Yup.object().shape({
     .min(3, 'Must be longer than 3 characters')
     .max(30, 'Category should not be longer than 30 characters')
     .required('Required'),
-  weight: Yup.number().required('Required'),
-  cost: Yup.number().min(0, 'Must provide a number').required('Required'),
-  price: Yup.number().min(0, 'Must provide a number').required('Required'),
+  weight: Yup.number().typeError('Weight must be a number').required('Required'),
+  cost: Yup.number()
+    .typeError('Cost must be a number')
+    .min(0, 'Must provide a number')
+    .required('Required'),
+  price: Yup.number()
+    .typeError('Price must be a number')
+    .min(0, 'Must provide a number')
+    .required('Required'),
 });
 
 export default function AddProductForm() {
@@ -43,86 +49,42 @@ export default function AddProductForm() {
       onSubmit={handleSubmit}
       validationSchema={AddProductSchema}
     >
-      {({ dirty, isValid }) => (
+      {({ dirty, isValid, touched, errors }) => (
         <Form>
-          <Field
-            required
-            fullWidth
+          <InputField
             name="productName"
             label="Product Name"
-            as={TextField}
-            autoComplete="off"
-            helperText={<ErrorMessage name="productName" />}
-            variant="outlined"
-            margin="normal"
+            error={touched.productName && Boolean(errors.productName)}
           />
-          <Field
-            required
-            fullWidth
+          <InputField
             name="skuCode"
             label="SKU Code"
-            as={TextField}
-            autoComplete="off"
-            helperText={<ErrorMessage name="skuCode" />}
-            variant="outlined"
-            margin="normal"
+            error={touched.skuCode && Boolean(errors.skuCode)}
           />
-          <Field
-            required
-            fullWidth
+          <InputField
             name="productDescription"
             label="Product Description"
-            as={TextField}
-            autoComplete="off"
-            helperText={<ErrorMessage name="productDescription" />}
-            variant="outlined"
-            margin="normal"
+            error={touched.productDescription && Boolean(errors.productDescription)}
           />
-          <Field
-            required
-            fullWidth
+          <InputField
             name="category"
             label="Category"
-            as={TextField}
-            autoComplete="off"
-            helperText={<ErrorMessage name="category" />}
-            variant="outlined"
-            margin="normal"
+            error={touched.category && Boolean(errors.category)}
           />
-          <Field
-            required
-            fullWidth
+          <InputField
             name="weight"
             label="Weight"
-            as={TextField}
-            autoComplete="off"
-            helperText={<ErrorMessage name="weight" />}
-            variant="outlined"
-            margin="normal"
+            error={touched.weight && Boolean(errors.weight)}
           />
-          <Field
-            required
-            fullWidth
-            name="cost"
-            label="Cost"
-            as={TextField}
-            autoComplete="off"
-            helperText={<ErrorMessage name="cost" />}
-            variant="outlined"
-            margin="normal"
-          />
-          <Field
-            required
-            fullWidth
-            name="price"
-            label="Price"
-            as={TextField}
-            autoComplete="off"
-            helperText={<ErrorMessage name="price" />}
-            variant="outlined"
-            margin="normal"
-          />
-          <Button disabled={!dirty || !isValid} variant="contained" size="large">
+          <InputField name="cost" label="Cost" error={touched.cost && Boolean(errors.cost)} />
+          <InputField name="price" label="Price" error={touched.price && Boolean(errors.price)} />
+          <Button
+            sx={{ mt: '10px' }}
+            disabled={!dirty || !isValid}
+            variant="contained"
+            size="large"
+            type="submit"
+          >
             Submit
           </Button>
         </Form>

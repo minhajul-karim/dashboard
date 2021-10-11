@@ -1,7 +1,10 @@
 import Button from '@mui/material/Button';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import InputField from '../inputField';
+import * as productActions from '../../state/actions/productActions';
 
 const initialValues = {
   productName: '',
@@ -39,8 +42,12 @@ const AddProductSchema = Yup.object().shape({
 });
 
 export default function AddProductForm() {
+  const state = useSelector((st) => console.log(st));
+  const dispatch = useDispatch();
+  const { addProduct } = bindActionCreators(productActions, dispatch);
+
   const handleSubmit = (values) => {
-    console.log(values);
+    addProduct(values);
   };
 
   return (

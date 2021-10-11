@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/user-event": "latest",
+    "axios": "^0.22.0",
     "formik": "^2.2.9",
     "prop-types": "^15.7.2",
     "react": "latest",

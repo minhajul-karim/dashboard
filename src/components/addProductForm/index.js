@@ -30,7 +30,7 @@ const AddProductSchema = Yup.object().shape({
     .min(3, 'Must be longer than 3 characters')
     .max(30, 'Category should not be longer than 30 characters')
     .required('Required'),
-  weight: Yup.number().typeError('Weight must be a number').required('Required'),
+  weight: Yup.string().required('Required'),
   cost: Yup.number()
     .typeError('Cost must be a number')
     .min(0, 'Must provide a number')
@@ -42,7 +42,6 @@ const AddProductSchema = Yup.object().shape({
 });
 
 export default function AddProductForm() {
-  const state = useSelector((st) => console.log(st));
   const dispatch = useDispatch();
   const { addProduct } = bindActionCreators(productActions, dispatch);
 

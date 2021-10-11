@@ -1,9 +1,16 @@
-/* eslint-disable import/prefer-default-export */
+import axios from 'axios';
+
 export const addProduct = (newProduct) => (dispatch) => {
-  console.log('save the following prod');
-  console.log(newProduct);
-  dispatch({
-    type: 'ADD_PRODUCT',
-    payload: newProduct,
-  });
+  // TODO: CHANGE THE SERVER URL WITH A VALID ONE
+  axios
+    .post('http://serverurl.com/products', newProduct)
+    .then((response) => {
+      // TODO: DISPATCH AFTER PRODUCT HAS BEEN SAVED
+      dispatch({
+        type: 'ADD_PRODUCT',
+        payload: newProduct,
+      });
+      console.log(`Dispatching ${newProduct}`);
+    })
+    .catch((error) => console.log(error));
 };

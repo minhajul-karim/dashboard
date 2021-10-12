@@ -1,0 +1,23 @@
+{
+  "name": "goods_server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/minhajul-karim/dashboard",
+  "author": "Minhajul Karim",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.2",
+    "http-errors": "^1.8.0",
+    "mongoose": "^6.0.10"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1"
+  }
+}

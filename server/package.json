@@ -2,6 +2,11 @@
   "name": "goods_server",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=development npx nodemon src/index.js",
+    "prod": "NODE_ENV=production node src/index.js"
+  },
   "repository": "https://github.com/minhajul-karim/dashboard",
   "author": "Minhajul Karim",
   "license": "MIT",

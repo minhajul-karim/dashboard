@@ -6,11 +6,13 @@ const {
   errorHandler,
   notFoundHandler,
 } = require('./middlewares/common/errorHandler');
+const connectWithDB = require('./mongo');
 
 const app = express();
 dotenv.config();
 
 // Database connection
+connectWithDB();
 
 // Request parser
 app.use(express.json());

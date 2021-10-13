@@ -4,10 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 const productRouter = require('./router/productRouter');
-const {
-  errorHandler,
-  notFoundHandler,
-} = require('./middlewares/common/errorHandler');
+const { errorHandler, notFoundHandler } = require('./middlewares');
 const connectWithDB = require('./mongo');
 
 const app = express();

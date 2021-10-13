@@ -1,5 +1,6 @@
 const express = require('express');
 const { addProductHandler } = require('../controllers/productController');
+const { handleAddProductReqValidation } = require('../middlewares/index');
 
 const router = express.Router();
 
@@ -9,6 +10,6 @@ router.get('/', (req, res) => {
 });
 
 // Add product
-router.post('/', addProductHandler);
+router.post('/', handleAddProductReqValidation, addProductHandler);
 
 module.exports = router;

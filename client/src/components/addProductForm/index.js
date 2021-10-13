@@ -30,7 +30,7 @@ const AddProductSchema = Yup.object().shape({
     .min(3, 'Must be longer than 3 characters')
     .max(30, 'Category should not be longer than 30 characters')
     .required('Required'),
-  weight: Yup.string().required('Required'),
+  weight: Yup.number().required('Required'),
   cost: Yup.number()
     .typeError('Cost must be a number')
     .min(0, 'Must provide a number')
@@ -79,7 +79,7 @@ export default function AddProductForm() {
           />
           <InputField
             name="weight"
-            label="Weight"
+            label="Weight(kg)"
             error={touched.weight && Boolean(errors.weight)}
           />
           <InputField name="cost" label="Cost" error={touched.cost && Boolean(errors.cost)} />

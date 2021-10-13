@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const productRouter = require('./router/productRouter');
 const {
   errorHandler,
@@ -13,6 +14,9 @@ dotenv.config();
 
 // Database connection
 connectWithDB();
+
+// CORS
+app.use(cors());
 
 // Request parser
 app.use(express.json());

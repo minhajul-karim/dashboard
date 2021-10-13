@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 export const addProduct = (newProduct) => (dispatch) => {
-  // TODO: CHANGE THE SERVER URL WITH A VALID ONE
   axios
-    .post('http://serverurl.com/products', newProduct)
+    .post('http://localhost:5000/products', newProduct)
     .then((response) => {
       // TODO: DISPATCH AFTER PRODUCT HAS BEEN SAVED
       dispatch({

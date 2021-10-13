@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const morgan = require('morgan');
 const productRouter = require('./router/productRouter');
 const {
   errorHandler,
@@ -21,6 +22,9 @@ app.use(cors());
 // Request parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Logger
+app.use(morgan('dev'));
 
 // Routing
 app.use('/products', productRouter);

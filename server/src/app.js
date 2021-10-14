@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const productRouter = require('./router/productRouter');
 const { errorHandler, notFoundHandler } = require('./middlewares');
 const connectWithDB = require('./mongo');
+const configureRoute = require('./controllers');
 
 const app = express();
 dotenv.config();
@@ -23,8 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 // Logger
 app.use(morgan('dev'));
 
-// Routing
-app.use('/products', productRouter);
+// Configure routes
+configureRoute(app);
 
 // Not found handler
 app.use(notFoundHandler);

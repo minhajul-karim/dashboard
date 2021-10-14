@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const addProduct = (newProduct) => (dispatch) => {
   axios
-    .post('http://localhost:5000/products', newProduct)
+    .post('http://localhost:5000/api/products', newProduct)
     .then((response) => {
       // TODO: DISPATCH AFTER PRODUCT HAS BEEN SAVED
       dispatch({

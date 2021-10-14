@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import InputField from '../inputField';
-import * as productActions from '../../state/actions/productActions';
+import * as productActions from '../../redux/actions/productActions';
 
 const initialValues = {
   productName: '',

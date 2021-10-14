@@ -9,7 +9,6 @@ export const addProduct = (newProduct) => (dispatch) => {
         type: 'ADD_PRODUCT',
         payload: newProduct,
       });
-      console.log(`Dispatching ${newProduct}`);
     })
     .catch((error) => console.log(error));
 };

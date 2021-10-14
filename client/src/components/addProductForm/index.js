@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { useHistory } from 'react-router-dom';
 import InputField from '../inputField';
 import * as productActions from '../../redux/actions/productActions';
 
@@ -43,10 +44,12 @@ const AddProductSchema = Yup.object().shape({
 
 export default function AddProductForm() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { addProduct } = bindActionCreators(productActions, dispatch);
 
   const handleSubmit = (values) => {
     addProduct(values);
+    history.push('/all');
   };
 
   return (

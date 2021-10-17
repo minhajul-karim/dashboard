@@ -49,7 +49,7 @@ export default function AddProductForm() {
 
   const handleSubmit = (values) => {
     addProduct(values);
-    history.push('/all');
+    history.push('/products/all');
   };
 
   return (

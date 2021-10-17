@@ -1,7 +1,7 @@
 version: "3"
 services:
   server:
-    container_name: server
+    container_name: goods_server
     restart: always
     build: ./server
     ports:
@@ -10,6 +10,14 @@ services:
       - "./server:/usr/src/app"
     links:
       - mongo
+  client:
+    container_name: goods_client
+    restart: always
+    build: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./client:/usr/src/app"
   mongo:
     container_name: mongo
     image: mongo

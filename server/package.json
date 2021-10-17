@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development npx nodemon src/index.js",
+    "start": "NODE_ENV=development nodemon src/index.js",
     "prod": "NODE_ENV=production node src/index.js"
   },
   "repository": "https://github.com/minhajul-karim/dashboard",
@@ -26,6 +26,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.13",
     "prettier": "^2.4.1"
   }
 }

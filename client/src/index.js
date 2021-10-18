@@ -2,15 +2,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import store from './redux/store';
+import { store, persistor } from './redux/store';
+import { Spinner } from './components';
 
 ReactDOM.render(
   <Provider store={store}>
-    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-    <CssBaseline />
-    <App />
+    <PersistGate loading={<Spinner />} persistor={persistor}>
+      <CssBaseline />
+      <App />
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );

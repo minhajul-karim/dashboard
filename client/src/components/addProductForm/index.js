@@ -3,9 +3,9 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { useHistory } from 'react-router-dom';
 import InputField from '../inputField';
 import * as productActions from '../../redux/actions/productActions';
+import Spinner from '../spinner';
 
 const initialValues = {
   productName: '',
@@ -44,13 +44,17 @@ const AddProductSchema = Yup.object().shape({
 
 export default function AddProductForm() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const { isLoading } = useSelector((appState) => appState.product);
   const { addProduct } = bindActionCreators(productActions, dispatch);
 
   const handleSubmit = (values) => {
     addProduct(values);
-    history.push('/products/all');
   };
+
+  // Show the spinner when data is saving
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <Formik

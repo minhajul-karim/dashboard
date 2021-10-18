@@ -6,5 +6,16 @@ import Deposits from './deposits';
 import InputField from './inputField';
 import Orders from './orders';
 import Title from './title';
+import Spinner from './spinner';
 
-export { Chart, Deposits, Orders, Title, Copyright, Dashboard, AddProductForm, InputField };
+export {
+  Chart,
+  Deposits,
+  Orders,
+  Title,
+  Copyright,
+  Dashboard,
+  AddProductForm,
+  InputField,
+  Spinner,
+};

@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import InputField from '../inputField';
 import * as productActions from '../../redux/actions/productActions';
 import Spinner from '../spinner';
+import AlertDialog from '../alertDialog';
 
 const initialValues = {
   productName: '',
@@ -17,6 +18,7 @@ const initialValues = {
   price: '',
 };
 
+// TODO: CAN WE MOVE THIS SCHEMA TO ELSEWHERE?
 const AddProductSchema = Yup.object().shape({
   productName: Yup.string()
     .min(3, 'Must be longer than 3 characters')
@@ -64,6 +66,7 @@ export default function AddProductForm() {
     >
       {({ dirty, isValid, touched, errors }) => (
         <Form>
+          <AlertDialog />
           <InputField
             name="productName"
             label="Product Name"

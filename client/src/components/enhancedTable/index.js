@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import {
@@ -12,30 +12,32 @@ import {
   TableRow,
   TableSortLabel,
   Paper,
+  Button,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import axios from 'axios';
 
-function createData(name, calories, fat, carbs, protein) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
+// function createData(name, calories, fat, carbs, protein) {
+//   return {
+//     name,
+//     calories,
+//     fat,
+//     carbs,
+//     protein,
+//   };
+// }
 
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-];
+// const rows = [
+//   createData('Cupcake', 305, 3.7, 67, 4.3),
+//   createData('Donut', 452, 25.0, 51, 4.9),
+//   createData('Eclair', 262, 16.0, 24, 6.0),
+//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9),
+//   createData('Honeycomb', 408, 3.2, 87, 6.5),
+//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+//   createData('Jelly Bean', 375, 0.0, 94, 0.0),
+//   createData('KitKat', 518, 26.0, 65, 7.0),
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -55,34 +57,40 @@ function getComparator(order, orderBy) {
 
 const headCells = [
   {
-    id: 'name',
+    id: 'productName',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: 'Product Name',
   },
   {
-    id: 'calories',
-    numeric: true,
+    id: 'skuCode',
+    numeric: false,
     disablePadding: false,
-    label: 'Calories',
+    label: 'SKU Code',
   },
   {
-    id: 'fat',
-    numeric: true,
+    id: 'category',
+    numeric: false,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'Category',
   },
   {
-    id: 'carbs',
+    id: 'weight',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Weight(kg)',
   },
   {
-    id: 'protein',
+    id: 'cost',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Cost',
+  },
+  {
+    id: 'price',
+    numeric: true,
+    disablePadding: false,
+    label: 'Price',
   },
 ];
 
@@ -130,12 +138,13 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rows, setRows] = useState([]);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -183,6 +192,14 @@ export default function EnhancedTable() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+  // Load data from server
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/products')
+      .then((resp) => setRows(resp.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -222,12 +239,19 @@ export default function EnhancedTable() {
                       selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
+                        {row.productName}
                       </TableCell>
-                      <TableCell>{row.calories}</TableCell>
-                      <TableCell>{row.fat}</TableCell>
-                      <TableCell>{row.carbs}</TableCell>
-                      <TableCell>{row.protein}</TableCell>
+                      <TableCell>{row.skuCode}</TableCell>
+                      <TableCell>{row.category}</TableCell>
+                      <TableCell>{row.weight}</TableCell>
+                      <TableCell>{row.cost}</TableCell>
+                      <TableCell>{row.price}</TableCell>
+                      <TableCell>
+                        <Button variant="outlined" sx={{ marginRight: '10px' }}>
+                          Edit
+                        </Button>
+                        <Button variant="outlined">Delete</Button>
+                      </TableCell>
                     </TableRow>
                   );
                 })}

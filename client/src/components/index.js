@@ -9,6 +9,7 @@ import Title from './title';
 import Spinner from './spinner';
 import Alert from './alert';
 import AlertDialog from './alertDialog';
+import EnhancedTable from './enhancedTable';
 
 export {
   Chart,
@@ -22,4 +23,5 @@ export {
   Spinner,
   Alert,
   AlertDialog,
+  EnhancedTable,
 };

@@ -37,7 +37,8 @@
       {
         "extensions": [".js", ".jsx"]
       }
-    ]
+    ],
+    "react-hooks/exhaustive-deps": 1
   },
   "plugins": ["prettier", "react", "react-hooks"]
 }

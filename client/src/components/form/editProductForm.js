@@ -3,7 +3,8 @@ import { Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import InputField from '../inputField';
 import * as productActions from '../../redux/actions/productActions';
 import Spinner from '../spinner';
@@ -42,10 +43,31 @@ export default function EditProductForm() {
       validationSchema={AddProductSchema}
     >
       {function Render({ dirty, isValid, touched, errors, setFieldValue }) {
+        const [isFormLoading, setIsFormLoading] = useState(true);
         useEffect(() => {
-          console.log('Fetch prodcut info from server');
-          console.log(productId);
+          axios
+            .get(`http://localhost:5000/api/products/${productId}`)
+            .then((resp) => {
+              const product = resp.data;
+              const fields = [
+                'productName',
+                'skuCode',
+                'productDescription',
+                'category',
+                'weight',
+                'cost',
+                'price',
+              ];
+              fields.forEach((field) => setFieldValue(field, product[field], true));
+              setIsFormLoading(false);
+            })
+            .catch((err) => console.log(err));
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
+
+        if (isFormLoading) {
+          return <Spinner />;
+        }
 
         return (
           <Form>

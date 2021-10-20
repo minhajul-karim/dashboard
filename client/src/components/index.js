@@ -1,4 +1,5 @@
-import AddProductForm from './addProductForm';
+import AddProductForm from './form/addProductForm';
+import EditProductForm from './form/editProductForm';
 import Chart from './chart';
 import Copyright from './copyright';
 import Dashboard from './dashboard';
@@ -19,6 +20,7 @@ export {
   Copyright,
   Dashboard,
   AddProductForm,
+  EditProductForm,
   InputField,
   Spinner,
   Alert,

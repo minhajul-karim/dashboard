@@ -92,6 +92,9 @@ const headCells = [
     disablePadding: false,
     label: 'Price',
   },
+  {
+    id: 'actions',
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -202,7 +205,7 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+      <Paper sx={{ width: '100%', mb: 2, padding: '1em' }}>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

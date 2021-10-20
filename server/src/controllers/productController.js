@@ -1,4 +1,8 @@
-const { addProduct, getAllProdcuts } = require('../services/productService');
+const {
+  addProduct,
+  getAllProdcuts,
+  getAProduct,
+} = require('../services/productService');
 
 // Get all products
 const getAllProdcutsHandler = async (req, res, next) => {
@@ -21,7 +25,19 @@ const addProductHandler = async (req, res, next) => {
   }
 };
 
+// Get a product
+const getProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await getAProduct(id);
+    res.status(200).send(product);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
+  getProduct,
   addProductHandler,
   getAllProdcutsHandler,
 };

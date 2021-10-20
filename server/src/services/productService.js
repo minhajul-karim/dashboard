@@ -6,6 +6,12 @@ const getAllProdcuts = async () => {
   return products;
 };
 
+// Get a product
+const getAProduct = async (id) => {
+  const product = await models.Product.findById(id);
+  return product;
+};
+
 // Add a new product
 const addProduct = async (product) => {
   const newProduct = new models.Product(product);
@@ -16,4 +22,5 @@ const addProduct = async (product) => {
 module.exports = {
   addProduct,
   getAllProdcuts,
+  getAProduct,
 };

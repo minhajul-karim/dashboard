@@ -1,11 +1,13 @@
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as productActions from '../../redux/actions/productActions';
@@ -32,15 +34,19 @@ export default function AlertDialog() {
             alignItems: 'center',
           }}
         >
-          <CheckBoxIcon sx={{ marginRight: '10px' }} />
-          {isError && 'Error!'}
+          {/* <CheckBoxIcon sx={{ marginRight: '10px' }} /> */}
+          <Typography variant="h5">{isError && 'Error!'}</Typography>
         </Box>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">{isError && errorMsg}</DialogContentText>
+        <DialogContentText id="alert-dialog-description">
+          <Typography variant="h6">{isError && errorMsg}</Typography>
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeAlertDialog}>Ok</Button>
+        <Button variant="contained" onClick={closeAlertDialog}>
+          Ok
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -14,6 +14,8 @@ const getAProduct = async (id) => {
 
 // Add a new product
 const addProduct = async (product) => {
+  // Rebuild all unique indexes
+  await models.Product.syncIndexes();
   const newProduct = new models.Product(product);
   const savedProduct = await newProduct.save();
   return savedProduct._id;

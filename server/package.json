@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development nodemon src/index.js",
-    "prod": "NODE_ENV=production node src/index.js"
+    "start": "nodemon src/index.js",
+    "prod": "node src/index.js"
   },
   "repository": "https://github.com/minhajul-karim/dashboard",
   "author": "Minhajul Karim",

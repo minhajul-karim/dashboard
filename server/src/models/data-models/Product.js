@@ -6,6 +6,7 @@ const productSchema = mongoose.Schema({
     minLength: 3,
     maxLength: 30,
     trim: true,
+    unique: true,
     required: true,
   },
   skuCode: {
@@ -13,6 +14,7 @@ const productSchema = mongoose.Schema({
     minLength: 4,
     maxLength: 20,
     trim: true,
+    unique: true,
     required: true,
   },
   productDescription: {

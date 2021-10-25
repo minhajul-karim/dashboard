@@ -9,6 +9,7 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
+  errorMsg: '',
   items: [],
 };
 
@@ -31,6 +32,7 @@ export default function productReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         isError: true,
+        errorMsg: action.payload,
       };
     case RESET_BOOLEAN_STATUS:
       return {
@@ -38,6 +40,7 @@ export default function productReducer(state = initialState, action) {
         isLoading: false,
         isSuccess: false,
         isError: false,
+        errorMsg: '',
       };
 
     default:

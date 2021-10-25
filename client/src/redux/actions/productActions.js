@@ -18,9 +18,10 @@ export const addProduct = (newProduct) => (dispatch) => {
         });
       }
     })
-    .catch(() => {
+    .catch((err) => {
       dispatch({
         type: 'PRODUCT_SAVING_ERR',
+        payload: err.response.data.message,
       });
     });
 };

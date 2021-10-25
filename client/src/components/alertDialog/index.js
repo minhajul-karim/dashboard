@@ -12,14 +12,14 @@ import * as productActions from '../../redux/actions/productActions';
 
 export default function AlertDialog() {
   const dispatch = useDispatch();
-  const { isError, isSuccess } = useSelector((appState) => appState.product);
+  const { isError, errorMsg } = useSelector((appState) => appState.product);
   const { closeAlertDialog } = bindActionCreators(productActions, dispatch);
 
   return (
     <Dialog
       fullWidth
       maxWidth="xs"
-      open={isSuccess || isError}
+      open={isError}
       onClose={closeAlertDialog}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -33,15 +33,11 @@ export default function AlertDialog() {
           }}
         >
           <CheckBoxIcon sx={{ marginRight: '10px' }} />
-          {isSuccess && 'Awesome!'}
           {isError && 'Error!'}
         </Box>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {isSuccess && 'Product saved.'}
-          {isError && 'Product did not save.'}
-        </DialogContentText>
+        <DialogContentText id="alert-dialog-description">{isError && errorMsg}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={closeAlertDialog}>Ok</Button>

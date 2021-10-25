@@ -1,5 +1,6 @@
 const { validateAddProductReq } = require('../models/request-models');
 
+// Validate request to add product
 const handleAddProductReqValidation = (req, res, next) => {
   const result = validateAddProductReq(req.body);
   if (result.error) {
@@ -12,9 +13,7 @@ const handleAddProductReqValidation = (req, res, next) => {
 
 // Default error handler
 const errorHandler = (err, req, res, next) => {
-  const error = { message: err.message };
-  res.status(err.status || 500);
-  res.json({ error });
+  res.status(err.status || 500).json({ message: err.message });
 };
 
 // Not found handler

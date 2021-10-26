@@ -29,9 +29,13 @@ const updateProduct = async (product, prodId) => {
   return updatedProduct;
 };
 
+const deleteProduct = async (prodId) =>
+  models.Product.findOneAndRemove(prodId).exec();
+
 module.exports = {
   addProduct,
   getAllProdcuts,
   getAProduct,
   updateProduct,
+  deleteProduct,
 };

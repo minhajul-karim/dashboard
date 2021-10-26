@@ -4,6 +4,7 @@ const {
   getAllProdcuts,
   getAProduct,
   updateProduct,
+  deleteProduct,
 } = require('../services/productService');
 const { duplicateKeyErrorHandler } = require('../middlewares');
 
@@ -39,6 +40,16 @@ const updateProductHandler = async (req, res, next) => {
   }
 };
 
+const deleteProductHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await deleteProduct(id);
+    res.status(204).json();
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Get a product
 const getProductHandler = async (req, res, next) => {
   try {
@@ -55,4 +66,5 @@ module.exports = {
   addProductHandler,
   updateProductHandler,
   getAllProdcutsHandler,
+  deleteProductHandler,
 };

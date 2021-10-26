@@ -4,6 +4,7 @@ const {
   addProductHandler,
   updateProductHandler,
   getAllProdcutsHandler,
+  deleteProductHandler,
 } = require('../controllers/productController');
 const { handleReqValidation } = require('../middlewares/index');
 
@@ -17,6 +18,7 @@ router
 router
   .route('/:id')
   .get(getProductHandler)
-  .put(handleReqValidation, updateProductHandler);
+  .put(handleReqValidation, updateProductHandler)
+  .delete(deleteProductHandler);
 
 module.exports = router;

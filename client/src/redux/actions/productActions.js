@@ -8,7 +8,7 @@ export const addProduct = (newProduct) => (dispatch) => {
   });
 
   axios
-    .post('http://localhost:5000/api/products', newProduct)
+    .post('products', newProduct)
     .then((response) => {
       // Add prodcut to state when new product has been saved in the db
       if (response.status === 201) {

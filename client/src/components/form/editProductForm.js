@@ -46,7 +46,7 @@ export default function EditProductForm() {
         const [isFormLoading, setIsFormLoading] = useState(true);
         useEffect(() => {
           axios
-            .get(`http://localhost:5000/api/products/${productId}`)
+            .get(`products/${productId}`)
             .then((resp) => {
               const product = resp.data;
               const fields = [

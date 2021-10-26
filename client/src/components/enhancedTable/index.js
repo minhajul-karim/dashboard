@@ -177,7 +177,7 @@ export default function EnhancedTable() {
   // Load data from server
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/products')
+      .get('products')
       .then((resp) => setRows(resp.data))
       .catch((err) => console.log(err));
   }, []);

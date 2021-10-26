@@ -1,6 +1,7 @@
 import {
   PRODUCT_SAVING,
   PRODUCT_ADDED,
+  PRODUCT_UPDATED,
   PRODUCT_SAVING_ERR,
   RESET_BOOLEAN_STATUS,
 } from '../actions/types';
@@ -26,6 +27,12 @@ export default function productReducer(state = initialState, action) {
         isLoading: false,
         isSuccess: true,
         items: [...state.items, action.payload],
+      };
+    case PRODUCT_UPDATED:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
       };
     case PRODUCT_SAVING_ERR:
       return {

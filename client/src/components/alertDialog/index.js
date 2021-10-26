@@ -40,7 +40,7 @@ export default function AlertDialog() {
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <Typography variant="h6">{isError && errorMsg}</Typography>
+          <Typography>{isError && errorMsg}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>

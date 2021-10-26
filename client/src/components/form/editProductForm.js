@@ -25,10 +25,10 @@ export default function EditProductForm() {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
   const { isLoading } = useSelector((appState) => appState.product);
-  const { addProduct } = bindActionCreators(productActions, dispatch);
+  const { updateProduct } = bindActionCreators(productActions, dispatch);
 
   const handleSubmit = (values) => {
-    addProduct(values);
+    updateProduct(values, productId);
   };
 
   // Show the spinner when data is saving

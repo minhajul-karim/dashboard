@@ -1,7 +1,7 @@
 const validate = require('./product-request-model');
 
 const validators = {
-  validateAddProductReq: validate,
+  validateReq: validate,
 };
 
 module.exports = validators;

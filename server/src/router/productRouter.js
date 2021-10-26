@@ -1,20 +1,22 @@
 const express = require('express');
 const {
-  getProduct,
+  getProductHandler,
   addProductHandler,
+  updateProductHandler,
   getAllProdcutsHandler,
 } = require('../controllers/productController');
-const { handleAddProductReqValidation } = require('../middlewares/index');
+const { handleReqValidation } = require('../middlewares/index');
 
 const router = express.Router();
 
-// All products
-router.get('/', getAllProdcutsHandler);
+router
+  .route('/')
+  .get(getAllProdcutsHandler)
+  .post(handleReqValidation, addProductHandler);
 
-// Add product
-router.post('/', handleAddProductReqValidation, addProductHandler);
-
-// Get a product
-router.get('/:id', getProduct);
+router
+  .route('/:id')
+  .get(getProductHandler)
+  .put(handleReqValidation, updateProductHandler);
 
 module.exports = router;

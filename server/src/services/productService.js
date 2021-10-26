@@ -21,8 +21,17 @@ const addProduct = async (product) => {
   return savedProduct._id;
 };
 
+// Update a product
+const updateProduct = async (product, prodId) => {
+  const updatedProduct = models.Product.findByIdAndUpdate(prodId, product, {
+    returnDocument: 'after',
+  }).exec();
+  return updatedProduct;
+};
+
 module.exports = {
   addProduct,
   getAllProdcuts,
   getAProduct,
+  updateProduct,
 };

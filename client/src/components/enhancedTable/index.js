@@ -233,7 +233,7 @@ export default function EnhancedTable() {
                           component={Link}
                           to={`/products/edit/${row._id}`}
                           variant="outlined"
-                          sx={{ marginRight: '10px' }}
+                          sx={{ margin: '5px' }}
                         >
                           Edit
                         </Button>

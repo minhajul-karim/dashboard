@@ -3,7 +3,9 @@ const {
   addProduct,
   getAllProdcuts,
   getAProduct,
+  updateProduct,
 } = require('../services/productService');
+const { duplicateKeyErrorHandler } = require('../middlewares');
 
 // Get all products
 const getAllProdcutsHandler = async (req, res, next) => {
@@ -22,21 +24,23 @@ const addProductHandler = async (req, res, next) => {
     const id = await addProduct(body);
     res.status(201).send(id);
   } catch (err) {
-    if (err.name === 'MongoServerError' && err.code === 11000) {
-      const errorField = Object.keys(err.keyValue)[0];
-      const errorMsg =
-        errorField === 'productName'
-          ? 'Product name already exists'
-          : 'SKU code already exists';
-      next(createError(422, errorMsg));
-    } else {
-      next(err);
-    }
+    duplicateKeyErrorHandler(err, req, res, next);
+  }
+};
+
+const updateProductHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    await updateProduct(body, id);
+    res.status(204).json();
+  } catch (err) {
+    duplicateKeyErrorHandler(err, req, res, next);
   }
 };
 
 // Get a product
-const getProduct = async (req, res, next) => {
+const getProductHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await getAProduct(id);
@@ -47,7 +51,8 @@ const getProduct = async (req, res, next) => {
 };
 
 module.exports = {
-  getProduct,
+  getProductHandler,
   addProductHandler,
+  updateProductHandler,
   getAllProdcutsHandler,
 };

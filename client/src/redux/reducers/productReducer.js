@@ -1,8 +1,9 @@
 import {
-  PRODUCT_SAVING,
   PRODUCT_ADDED,
-  PRODUCT_UPDATED,
+  PRODUCT_DELETED,
+  PRODUCT_SAVING,
   PRODUCT_SAVING_ERR,
+  PRODUCT_UPDATED,
   RESET_BOOLEAN_STATUS,
 } from '../actions/types';
 
@@ -12,7 +13,6 @@ const initialState = {
   isError: false,
   errorMsg: '',
   shouldRedirect: false,
-  items: [],
 };
 
 export default function productReducer(state = initialState, action) {
@@ -35,6 +35,12 @@ export default function productReducer(state = initialState, action) {
         isLoading: false,
         isSuccess: true,
         shouldRedirect: true,
+      };
+    case PRODUCT_DELETED:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
       };
     case PRODUCT_SAVING_ERR:
       return {

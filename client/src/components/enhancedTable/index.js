@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
 import {
+  Button,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -11,13 +10,13 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Paper,
-  Button,
 } from '@mui/material';
+import Box from '@mui/material/Box';
 import { visuallyHidden } from '@mui/utils';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as productActions from '../../redux/actions/productActions';
 
@@ -131,7 +130,7 @@ export default function EnhancedTable() {
   const [dense] = useState(false);
   const [rowsPerPage] = useState(5);
   const dispatch = useDispatch();
-  const { reset } = bindActionCreators(productActions, dispatch);
+  const { getProducts, reset, deleteProduct } = bindActionCreators(productActions, dispatch);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -180,10 +179,9 @@ export default function EnhancedTable() {
 
   // Load data from server
   useEffect(() => {
-    axios
-      .get('products')
-      .then((resp) => setRows(resp.data))
-      .catch((err) => console.log(err));
+    getProducts((data) => {
+      setRows(data);
+    });
   }, []);
 
   // Stop redirect
@@ -247,7 +245,17 @@ export default function EnhancedTable() {
                         >
                           Edit
                         </Button>
-                        <Button variant="outlined">Delete</Button>
+                        <Button
+                          variant="outlined"
+                          onClick={() => {
+                            deleteProduct(row._id);
+                            getProducts((data) => {
+                              setRows(data);
+                            });
+                          }}
+                        >
+                          Delete
+                        </Button>
                       </TableCell>
                     </TableRow>
                   );

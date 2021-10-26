@@ -49,7 +49,7 @@ export const updateProduct = (updatedProduct, productId) => (dispatch) => {
     });
 };
 
-export const closeAlertDialog = () => (dispatch) => {
+export const reset = () => (dispatch) => {
   dispatch({
     type: 'RESET_BOOLEAN_STATUS',
   });

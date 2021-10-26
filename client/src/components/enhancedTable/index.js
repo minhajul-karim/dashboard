@@ -17,6 +17,9 @@ import {
 import { visuallyHidden } from '@mui/utils';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as productActions from '../../redux/actions/productActions';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -125,8 +128,10 @@ export default function EnhancedTable() {
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [dense] = useState(false);
+  const [rowsPerPage] = useState(5);
+  const dispatch = useDispatch();
+  const { reset } = bindActionCreators(productActions, dispatch);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -165,7 +170,6 @@ export default function EnhancedTable() {
   };
 
   const handleChangePage = (event, newPage) => {
-    console.log(`fetch data for page ${newPage}`);
     setPage(newPage);
   };
 
@@ -180,6 +184,12 @@ export default function EnhancedTable() {
       .get('products')
       .then((resp) => setRows(resp.data))
       .catch((err) => console.log(err));
+  }, []);
+
+  // Stop redirect
+  useEffect(() => {
+    reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

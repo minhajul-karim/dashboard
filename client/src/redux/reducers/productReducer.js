@@ -11,6 +11,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   errorMsg: '',
+  shouldRedirect: false,
   items: [],
 };
 
@@ -33,6 +34,7 @@ export default function productReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         isSuccess: true,
+        shouldRedirect: true,
       };
     case PRODUCT_SAVING_ERR:
       return {
@@ -47,6 +49,7 @@ export default function productReducer(state = initialState, action) {
         isLoading: false,
         isSuccess: false,
         isError: false,
+        shouldRedirect: false,
         errorMsg: '',
       };
 

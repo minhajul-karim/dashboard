@@ -15,14 +15,14 @@ import * as productActions from '../../redux/actions/productActions';
 export default function AlertDialog() {
   const dispatch = useDispatch();
   const { isError, errorMsg } = useSelector((appState) => appState.product);
-  const { closeAlertDialog } = bindActionCreators(productActions, dispatch);
+  const { reset } = bindActionCreators(productActions, dispatch);
 
   return (
     <Dialog
       fullWidth
       maxWidth="xs"
       open={isError}
-      onClose={closeAlertDialog}
+      onClose={reset}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -34,17 +34,16 @@ export default function AlertDialog() {
             alignItems: 'center',
           }}
         >
-          {/* <CheckBoxIcon sx={{ marginRight: '10px' }} /> */}
           <Typography variant="h5">{isError && 'Error!'}</Typography>
         </Box>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <Typography>{isError && errorMsg}</Typography>
+          <Typography component="div">{isError && errorMsg}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={closeAlertDialog}>
+        <Button variant="contained" onClick={reset}>
           Ok
         </Button>
       </DialogActions>

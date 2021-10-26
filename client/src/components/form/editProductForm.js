@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import { Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import InputField from '../inputField';
@@ -24,12 +24,18 @@ const initialValues = {
 export default function EditProductForm() {
   const { id: productId } = useParams();
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((appState) => appState.product);
+  const { isLoading, shouldRedirect } = useSelector((appState) => appState.product);
   const { updateProduct } = bindActionCreators(productActions, dispatch);
+  const history = useHistory();
 
   const handleSubmit = (values) => {
     updateProduct(values, productId);
   };
+
+  useEffect(() => {
+    shouldRedirect && history.push('/products/all');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldRedirect]);
 
   // Show the spinner when data is saving
   if (isLoading) {
@@ -45,6 +51,7 @@ export default function EditProductForm() {
       {function Render({ dirty, isValid, touched, errors, setFieldValue }) {
         const [isFormLoading, setIsFormLoading] = useState(true);
         useEffect(() => {
+          let isMounted = true;
           axios
             .get(`products/${productId}`)
             .then((resp) => {
@@ -59,9 +66,12 @@ export default function EditProductForm() {
                 'price',
               ];
               fields.forEach((field) => setFieldValue(field, product[field], true));
-              setIsFormLoading(false);
+              isMounted && setIsFormLoading(false);
             })
             .catch((err) => console.log(err));
+          return () => {
+            isMounted = false;
+          };
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 

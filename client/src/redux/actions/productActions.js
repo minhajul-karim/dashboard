@@ -75,9 +75,10 @@ export const updateProduct = (updatedProduct, productId) => (dispatch) => {
 };
 
 export const deleteProduct = (productId) => (dispatch) => {
+  console.log(productId);
   // Set isLoading to true
   dispatch({
-    type: 'PRODUCT_SAVING',
+    type: 'PRODUCT_DELETE_REQUEST',
   });
 
   axios
@@ -85,7 +86,8 @@ export const deleteProduct = (productId) => (dispatch) => {
     .then((response) => {
       if (response.status === 204) {
         dispatch({
-          type: 'PRODUCT_DELETED',
+          type: 'PRODUCT_DELETE_SUCCESS',
+          payload: 'Product deleted',
         });
       }
     })
@@ -95,6 +97,13 @@ export const deleteProduct = (productId) => (dispatch) => {
         payload: err.response.data.message,
       });
     });
+};
+
+export const showDeleteDialog = (productId) => (dispatch) => {
+  dispatch({
+    type: 'SHOW_DELETE_DIALOG',
+    payload: productId,
+  });
 };
 
 export const reset = () => (dispatch) => {

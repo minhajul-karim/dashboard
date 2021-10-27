@@ -15,8 +15,9 @@ import * as productActions from '../../redux/actions/productActions';
 
 export default function AlertDialog({ calleeComponent }) {
   const dispatch = useDispatch();
-  const { isSuccess, isError, successMsg, errorMsg } = useSelector((appState) => appState.product);
-  const { reset } = bindActionCreators(productActions, dispatch);
+  const { isSuccess, isError, successMsg, errorMsg, shouldShowDeleteDialog, productId } =
+    useSelector((appState) => appState.product);
+  const { reset, deleteProduct } = bindActionCreators(productActions, dispatch);
   const history = useHistory();
 
   const closeHandler = () => {
@@ -31,7 +32,11 @@ export default function AlertDialog({ calleeComponent }) {
     <Dialog
       fullWidth
       maxWidth="xs"
-      open={(isSuccess && successMsg) || (isError && errorMsg)}
+      open={
+        (isSuccess && successMsg) ||
+        (isError && errorMsg) ||
+        (calleeComponent === 'EnhancedTable' && shouldShowDeleteDialog)
+      }
       onClose={closeHandler}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -44,20 +49,43 @@ export default function AlertDialog({ calleeComponent }) {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5">{isError && 'Error!'}</Typography>
-          <Typography variant="h5">{isSuccess && 'Awesome!'}</Typography>
+          <Typography variant="h5" component="span">
+            {isError && 'Error!'}
+          </Typography>
+          <Typography variant="h5" component="span">
+            {isSuccess && 'Awesome!'}
+          </Typography>
+          {calleeComponent === 'EnhancedTable' && shouldShowDeleteDialog && (
+            <Typography variant="h5" component="span">
+              Are you sure?
+            </Typography>
+          )}
         </Box>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <Typography component="div">{isError && errorMsg}</Typography>
-          <Typography component="div">{isSuccess && successMsg}</Typography>
+          <Typography component="span">{isError && errorMsg}</Typography>
+          <Typography component="span">{isSuccess && successMsg}</Typography>
+          {calleeComponent === 'EnhancedTable' && shouldShowDeleteDialog && (
+            <Typography component="span">This product is going to be deleted</Typography>
+          )}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={closeHandler}>
-          Ok
-        </Button>
+        {calleeComponent === 'EnhancedTable' && shouldShowDeleteDialog ? (
+          <>
+            <Button variant="contained" color="error" onClick={() => deleteProduct(productId)}>
+              Yes
+            </Button>
+            <Button variant="contained" onClick={closeHandler}>
+              No
+            </Button>
+          </>
+        ) : (
+          <Button variant="contained" onClick={closeHandler}>
+            Ok
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

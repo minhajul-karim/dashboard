@@ -8,18 +8,21 @@ import {
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
   PRODUCT_UPDATE_ERROR,
+  SHOW_DELETE_DIALOG,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
-  PRODUCT_DELETE_ERROR,
   RESET,
 } from '../actions/types';
 
 const initialState = {
+  productId: '',
   isLoading: false,
   isSuccess: false,
   isError: false,
   errorMsg: '',
   successMsg: '',
+  shouldShowDeleteDialog: false,
+  shouldLoadProducts: false,
   shouldRedirect: false,
 };
 
@@ -34,7 +37,7 @@ export default function productReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        isSuccess: true,
+        // isSuccess: true,
         isError: false,
       };
     case PRODUCT_LIST_GET_ERROR:
@@ -86,6 +89,29 @@ export default function productReducer(state = initialState, action) {
         isSuccess: false,
         isError: true,
         errorMsg: action.payload,
+      };
+    case SHOW_DELETE_DIALOG:
+      return {
+        ...state,
+        shouldShowDeleteDialog: true,
+        productId: action.payload,
+        isSuccess: false,
+      };
+    case PRODUCT_DELETE_REQUEST:
+      return {
+        ...state,
+        shouldShowDeleteDialog: false,
+        isLoading: true,
+      };
+    case PRODUCT_DELETE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+        successMsg: action.payload,
+        productId: '',
+        shouldLoadProducts: true,
+        shouldRedirect: true,
       };
     case RESET:
       return initialState;

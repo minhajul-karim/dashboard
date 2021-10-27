@@ -19,8 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as productActions from '../../redux/actions/productActions';
-import Spinner from '../spinner';
 import AlertDialog from '../alertDialog';
+import Spinner from '../spinner';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -132,8 +132,8 @@ export default function EnhancedTable() {
   const [dense] = useState(false);
   const [rowsPerPage] = useState(5);
   const dispatch = useDispatch();
-  const { getProducts, reset, deleteProduct } = bindActionCreators(productActions, dispatch);
-  const { isLoading } = useSelector((appState) => appState.product);
+  const { getProducts, reset, showDeleteDialog } = bindActionCreators(productActions, dispatch);
+  const { isLoading, shouldLoadProducts } = useSelector((appState) => appState.product);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -191,13 +191,21 @@ export default function EnhancedTable() {
     };
   }, []);
 
+  useEffect(() => {
+    shouldLoadProducts &&
+      getProducts((data) => {
+        console.log(data);
+        setRows(data);
+      });
+  }, [shouldLoadProducts]);
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <Box sx={{ width: '100%' }}>
-      <AlertDialog />
+      <AlertDialog calleeComponent="EnhancedTable" />
       <Paper sx={{ width: '100%', mb: 2, padding: '1em' }}>
         <TableContainer>
           <Table
@@ -253,11 +261,9 @@ export default function EnhancedTable() {
                         </Button>
                         <Button
                           variant="outlined"
+                          color="error"
                           onClick={() => {
-                            deleteProduct(row._id);
-                            getProducts((data) => {
-                              setRows(data);
-                            });
+                            showDeleteDialog(row._id);
                           }}
                         >
                           Delete

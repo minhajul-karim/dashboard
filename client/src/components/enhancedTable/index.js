@@ -15,10 +15,12 @@ import Box from '@mui/material/Box';
 import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import * as productActions from '../../redux/actions/productActions';
+import Spinner from '../spinner';
+import AlertDialog from '../alertDialog';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -131,6 +133,7 @@ export default function EnhancedTable() {
   const [rowsPerPage] = useState(5);
   const dispatch = useDispatch();
   const { getProducts, reset, deleteProduct } = bindActionCreators(productActions, dispatch);
+  const { isLoading } = useSelector((appState) => appState.product);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -177,8 +180,9 @@ export default function EnhancedTable() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  // Load data from server
+  // Load products
   useEffect(() => {
+    console.log('Loading data');
     getProducts((data) => {
       setRows(data);
     });
@@ -186,12 +190,16 @@ export default function EnhancedTable() {
 
   // Stop redirect
   useEffect(() => {
-    reset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // reset();
   }, []);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <Box sx={{ width: '100%' }}>
+      <AlertDialog />
       <Paper sx={{ width: '100%', mb: 2, padding: '1em' }}>
         <TableContainer>
           <Table

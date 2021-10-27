@@ -14,7 +14,7 @@ import * as productActions from '../../redux/actions/productActions';
 
 export default function AlertDialog() {
   const dispatch = useDispatch();
-  const { isError, errorMsg } = useSelector((appState) => appState.product);
+  const { isError, error } = useSelector((appState) => appState.product);
   const { reset } = bindActionCreators(productActions, dispatch);
 
   return (
@@ -39,7 +39,7 @@ export default function AlertDialog() {
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <Typography component="div">{isError && errorMsg}</Typography>
+          <Typography component="div">{isError && error}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>

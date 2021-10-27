@@ -1,8 +1,9 @@
 import axios from 'axios';
 
+// Get list of all products
 export const getProducts = (cb) => (dispatch) => {
   dispatch({
-    type: 'PRODUCT_SAVING',
+    type: 'PRODUCT_LIST_GET_REQUEST',
   });
 
   axios
@@ -10,13 +11,16 @@ export const getProducts = (cb) => (dispatch) => {
     .then((response) => {
       if (response.status === 200) {
         dispatch({
-          type: 'RESET_BOOLEAN_STATUS',
+          type: 'PRODUCT_LIST_GET_SUCCESS',
         });
       }
       cb(response.data);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
+      dispatch({
+        type: 'PRODUCT_LIST_GET_ERROR',
+        payload: 'Product loading failed! Please try reloading this page',
+      });
     });
 };
 
@@ -93,6 +97,6 @@ export const deleteProduct = (productId) => (dispatch) => {
 
 export const reset = () => (dispatch) => {
   dispatch({
-    type: 'RESET_BOOLEAN_STATUS',
+    type: 'RESET',
   });
 };

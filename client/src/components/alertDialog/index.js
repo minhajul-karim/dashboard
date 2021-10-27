@@ -14,14 +14,14 @@ import * as productActions from '../../redux/actions/productActions';
 
 export default function AlertDialog() {
   const dispatch = useDispatch();
-  const { isError, error } = useSelector((appState) => appState.product);
+  const { isSuccess, isError, successMsg, errorMsg } = useSelector((appState) => appState.product);
   const { reset } = bindActionCreators(productActions, dispatch);
 
   return (
     <Dialog
       fullWidth
       maxWidth="xs"
-      open={isError}
+      open={(isSuccess && successMsg) || (isError && errorMsg)}
       onClose={reset}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -35,11 +35,13 @@ export default function AlertDialog() {
           }}
         >
           <Typography variant="h5">{isError && 'Error!'}</Typography>
+          <Typography variant="h5">{isSuccess && 'Awesome!'}</Typography>
         </Box>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <Typography component="div">{isError && error}</Typography>
+          <Typography component="div">{isError && errorMsg}</Typography>
+          <Typography component="div">{isSuccess && successMsg}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>

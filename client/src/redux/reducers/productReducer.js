@@ -24,7 +24,8 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
-  error: '',
+  errorMsg: '',
+  successMsg: '',
   shouldRedirect: false,
 };
 
@@ -90,7 +91,28 @@ export default function productReducer(state = initialState, action) {
         isLoading: false,
         isSuccess: false,
         isError: true,
-        error: action.payload,
+        errorMsg: action.payload,
+      };
+    case PRODUCT_ADD_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case PRODUCT_ADD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+        successMsg: action.payload,
+        isError: false,
+      };
+    case PRODUCT_ADD_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: false,
+        isError: true,
+        errorMsg: action.payload,
       };
     case RESET:
       return initialState;

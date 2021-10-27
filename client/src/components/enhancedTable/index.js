@@ -182,15 +182,13 @@ export default function EnhancedTable() {
 
   // Load products
   useEffect(() => {
-    console.log('Loading data');
     getProducts((data) => {
       setRows(data);
     });
-  }, []);
-
-  // Stop redirect
-  useEffect(() => {
-    // reset();
+    return () => {
+      // Reset global state
+      reset();
+    };
   }, []);
 
   if (isLoading) {

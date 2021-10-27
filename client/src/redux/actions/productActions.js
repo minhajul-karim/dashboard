@@ -24,10 +24,11 @@ export const getProducts = (cb) => (dispatch) => {
     });
 };
 
+// Add a new product
 export const addProduct = (newProduct) => (dispatch) => {
   // Set isLoading to true
   dispatch({
-    type: 'PRODUCT_SAVING',
+    type: 'PRODUCT_ADD_REQUEST',
   });
 
   axios
@@ -36,14 +37,14 @@ export const addProduct = (newProduct) => (dispatch) => {
       // Add prodcut to state when new product has been saved in the db
       if (response.status === 201) {
         dispatch({
-          type: 'PRODUCT_ADDED',
-          payload: newProduct,
+          type: 'PRODUCT_ADD_SUCCESS',
+          payload: 'Product saved',
         });
       }
     })
     .catch((err) => {
       dispatch({
-        type: 'PRODUCT_SAVING_ERR',
+        type: 'PRODUCT_ADD_ERROR',
         payload: err.response.data.message,
       });
     });

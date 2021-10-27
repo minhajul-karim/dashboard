@@ -81,7 +81,7 @@ export default function EditProductForm() {
 
         return (
           <Form>
-            <AlertDialog />
+            <AlertDialog calleeComponent="EditProductForm" />
             <InputField
               name="productName"
               label="Product Name"

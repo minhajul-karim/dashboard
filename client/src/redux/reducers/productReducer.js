@@ -1,19 +1,13 @@
 import {
-  PRODUCT_ADDED,
-  PRODUCT_DELETED,
-  PRODUCT_SAVING,
-  PRODUCT_SAVING_ERR,
-  PRODUCT_UPDATED,
-  RESET_BOOLEAN_STATUS,
   PRODUCT_LIST_GET_REQUEST,
   PRODUCT_LIST_GET_SUCCESS,
   PRODUCT_LIST_GET_ERROR,
   PRODUCT_ADD_REQUEST,
   PRODUCT_ADD_SUCCESS,
   PRODUCT_ADD_ERROR,
-  PRODUCT_EDIT_REQUEST,
-  PRODUCT_EDIT_SUCCESS,
-  PRODUCT_EDIT_ERROR,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_SUCCESS,
+  PRODUCT_UPDATE_ERROR,
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_ERROR,
@@ -31,48 +25,6 @@ const initialState = {
 
 export default function productReducer(state = initialState, action) {
   switch (action.type) {
-    case PRODUCT_SAVING:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case PRODUCT_ADDED:
-      return {
-        ...state,
-        isLoading: false,
-        isSuccess: true,
-        items: [...state.items, action.payload],
-      };
-    case PRODUCT_UPDATED:
-      return {
-        ...state,
-        isLoading: false,
-        isSuccess: true,
-        shouldRedirect: true,
-      };
-    case PRODUCT_DELETED:
-      return {
-        ...state,
-        isLoading: false,
-        isSuccess: true,
-      };
-    case PRODUCT_SAVING_ERR:
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-        error: action.payload,
-      };
-    case RESET_BOOLEAN_STATUS:
-      return {
-        ...state,
-        isLoading: false,
-        isSuccess: false,
-        isError: false,
-        shouldRedirect: false,
-        error: '',
-      };
-    // new
     case PRODUCT_LIST_GET_REQUEST:
       return {
         ...state,
@@ -107,6 +59,27 @@ export default function productReducer(state = initialState, action) {
         isError: false,
       };
     case PRODUCT_ADD_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: false,
+        isError: true,
+        errorMsg: action.payload,
+      };
+    case PRODUCT_UPDATE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case PRODUCT_UPDATE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: true,
+        successMsg: action.payload,
+        isError: false,
+      };
+    case PRODUCT_UPDATE_ERROR:
       return {
         ...state,
         isLoading: false,

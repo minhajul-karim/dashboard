@@ -26,7 +26,7 @@ export const getProducts = (cb) => (dispatch) => {
 
 // Add a new product
 export const addProduct = (newProduct) => (dispatch) => {
-  // Set isLoading to true
+  // Display spinner
   dispatch({
     type: 'PRODUCT_ADD_REQUEST',
   });
@@ -51,9 +51,9 @@ export const addProduct = (newProduct) => (dispatch) => {
 };
 
 export const updateProduct = (updatedProduct, productId) => (dispatch) => {
-  // Set isLoading to true
+  // Display spinner
   dispatch({
-    type: 'PRODUCT_SAVING',
+    type: 'PRODUCT_UPDATE_REQUEST',
   });
 
   axios
@@ -61,13 +61,14 @@ export const updateProduct = (updatedProduct, productId) => (dispatch) => {
     .then((response) => {
       if (response.status === 204) {
         dispatch({
-          type: 'PRODUCT_UPDATED',
+          type: 'PRODUCT_UPDATE_SUCCESS',
+          payload: 'Product updated',
         });
       }
     })
     .catch((err) => {
       dispatch({
-        type: 'PRODUCT_SAVING_ERR',
+        type: 'PRODUCT_UPDATE_ERROR',
         payload: err.response.data.message,
       });
     });

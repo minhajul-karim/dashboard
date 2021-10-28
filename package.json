@@ -1,0 +1,11 @@
+{
+  "name": "goods",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/minhajul-karim/dashboard.git",
+  "author": "minhajul-karim <minhajul.kaarim@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build:client": "npm --prefix client run build"
+  }
+}

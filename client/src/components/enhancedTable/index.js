@@ -194,7 +194,6 @@ export default function EnhancedTable() {
   useEffect(() => {
     shouldLoadProducts &&
       getProducts((data) => {
-        console.log(data);
         setRows(data);
       });
   }, [shouldLoadProducts]);

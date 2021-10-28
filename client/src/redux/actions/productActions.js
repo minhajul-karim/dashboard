@@ -75,7 +75,6 @@ export const updateProduct = (updatedProduct, productId) => (dispatch) => {
 };
 
 export const deleteProduct = (productId) => (dispatch) => {
-  console.log(productId);
   // Set isLoading to true
   dispatch({
     type: 'PRODUCT_DELETE_REQUEST',

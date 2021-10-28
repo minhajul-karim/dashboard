@@ -33,8 +33,8 @@ export default function AlertDialog({ calleeComponent }) {
       fullWidth
       maxWidth="xs"
       open={
-        (isSuccess && successMsg) ||
-        (isError && errorMsg) ||
+        (isSuccess && Boolean(successMsg)) ||
+        (isError && Boolean(errorMsg)) ||
         (calleeComponent === 'EnhancedTable' && shouldShowDeleteDialog)
       }
       onClose={closeHandler}

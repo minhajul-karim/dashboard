@@ -3,7 +3,10 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const uri = process.env.MONGO_CONNECTION_STRING;
+const uri =
+  process.env.NODE_ENV === 'development'
+    ? 'mongodb://localhost:27017/goods'
+    : process.env.MONGO_CONNECTION_STRING;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,

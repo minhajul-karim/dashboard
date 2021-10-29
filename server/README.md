@@ -38,6 +38,19 @@ docker run -d --name server -p 5000:5000 goods/server
 
 The "**--name**" flag tags the container with a name. The "**-p**" flag maps port 5000 of the host machine to the internal port 5000 of the docker container that was exposed using the Dockerfile. After this, the name of the docker image that we created in the previous step, is passed. Once the container runs successfully, the API can be accessed from localhost http://localhost:5000/api/products.
 
+Mongodb can also be run in a container. There is a docker-compose.yaml file in the directory. Run the following command to start MongoDB.
+
+```
+docker-compose up
+```
+
+Then run
+
+```
+yarn install
+yarn start
+```
+
 ## Run without Docker
 
 The project can be run in the local machine using **npm** or **yarn**. At first, the dependencies need to be installed using the following command.

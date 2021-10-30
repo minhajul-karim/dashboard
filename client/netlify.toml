@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/*"
-  to = "https://gooods.herokuapp.com/api/products/"
+  to = "/index.html"
   status = 200
   force = true
   [redirects.headers]

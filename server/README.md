@@ -19,6 +19,8 @@ The values in the newly created environment file need to be replaced according t
 ```
 PORT=5000
 NODE_ENV=development
+DEV_API_ADDRESS=http://localhost
+PROD_API_ADDRESS=https://gooods.herokuapp.com/
 MONGO_CONNECTION_STRING=mongodb://localhost:27017/goods
 ```
 

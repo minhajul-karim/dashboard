@@ -1,11 +1,11 @@
 import Axios from 'axios';
 import { Home } from './pages';
 
-// eslint-disable-next-line no-unused-vars
-const developmentApiURL = 'http://localhost:5000/api/';
-const remoteApiURL = 'https://gooods.herokuapp.com/api/';
-
-Axios.defaults.baseURL = remoteApiURL;
+Axios.defaults.baseURL =
+  // eslint-disable-next-line no-constant-condition
+  process.env.NODE_ENV === 'development' || 'test'
+    ? process.env.REACT_APP_DEV_API_URL
+    : process.env.REACT_APP_PROD_API_URL;
 
 export default function App() {
   return <Home />;

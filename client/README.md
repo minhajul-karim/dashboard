@@ -23,10 +23,10 @@ The base API URL for this application can be configured in **src/App.js**
 ```
 import Axios from 'axios';
 
-const developmentApiURL = 'http://localhost:5000/api/';
-const remoteApiURL = 'https://gooods.herokuapp.com/api/';
-
-Axios.defaults.baseURL = remoteApiURL;
+Axios.defaults.baseURL =
+  process.env.NODE_ENV === 'development' || 'test'
+    ? process.env.REACT_APP_DEV_API_URL
+    : process.env.REACT_APP_PROD_API_URL;
 ```
 
 ## Run using Docker

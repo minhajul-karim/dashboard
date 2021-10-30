@@ -1,0 +1,4 @@
+[build]
+  base    = "cleint"
+  publish = "dist/"
+  command = "your run build"

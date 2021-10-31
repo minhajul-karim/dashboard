@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "https://gooods.herokuapp.com/"
   status = 200
   force = true

@@ -6,8 +6,9 @@ export const getProducts = (cb) => (dispatch) => {
     type: 'PRODUCT_LIST_GET_REQUEST',
   });
 
+  console.log(`process.env.REACT_APP_PROD_API_URL: ${process.env.REACT_APP_PROD_API_URL}`);
   axios
-    .get('products')
+    .get('https://gooods.herokuapp.com/api/products')
     .then((response) => {
       if (response.status === 200) {
         dispatch({

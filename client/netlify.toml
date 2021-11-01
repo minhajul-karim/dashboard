@@ -6,3 +6,9 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[context.production.environment]
+  REACT_APP_PROD_API_URL = https://gooods.herokuapp.com/api/
+
+[context.deploy-preview.environment]
+  REACT_APP_PROD_API_URL = https://gooods.herokuapp.com/api/

@@ -11,8 +11,9 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
+  TextField,
+  Box,
 } from '@mui/material';
-import Box from '@mui/material/Box';
 import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -126,12 +127,14 @@ EnhancedTableHead.propTypes = {
 
 export default function EnhancedTable() {
   const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense] = useState(false);
   const [rowsPerPage] = useState(5);
+  const [text, setText] = useState('');
   const dispatch = useDispatch();
   const { getProducts, reset, showDeleteDialog } = bindActionCreators(productActions, dispatch);
   const { isLoading, shouldLoadProducts } = useSelector((appState) => appState.product);
@@ -176,6 +179,10 @@ export default function EnhancedTable() {
     setPage(newPage);
   };
 
+  const handleSearchText = (event) => {
+    setText(event.target.value);
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -185,6 +192,7 @@ export default function EnhancedTable() {
   useEffect(() => {
     getProducts((data) => {
       setRows(data);
+      setFilteredRows(data);
     });
     return () => {
       // Reset global state
@@ -192,12 +200,32 @@ export default function EnhancedTable() {
     };
   }, []);
 
+  // Reload data after product deletion
   useEffect(() => {
     shouldLoadProducts &&
       getProducts((data) => {
         setRows(data);
       });
   }, [shouldLoadProducts]);
+
+  // Live search products
+  useEffect(() => {
+    if (text.length === 0) {
+      setFilteredRows(rows);
+    } else {
+      const result = rows.filter(
+        (row) =>
+          row.category.includes(text) ||
+          row.productDescription.includes(text) ||
+          row.productName.includes(text) ||
+          row.skuCode.includes(text) ||
+          row.cost === parseFloat(text) ||
+          row.price === parseFloat(text) ||
+          row.weight === parseFloat(text)
+      );
+      setFilteredRows(result);
+    }
+  }, [text]);
 
   if (isLoading) {
     return <Spinner />;
@@ -207,6 +235,9 @@ export default function EnhancedTable() {
     <Box sx={{ width: '100%' }}>
       <AlertDialog calleeComponent="EnhancedTable" />
       <Paper sx={{ width: '100%', mb: 2, padding: '1em' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <TextField label="Search" size="small" value={text} onChange={handleSearchText} />
+        </Box>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -224,7 +255,7 @@ export default function EnhancedTable() {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {rows
+              {filteredRows
                 .slice()
                 .sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -287,7 +318,7 @@ export default function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[]}
           component="div"
-          count={rows.length}
+          count={filteredRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

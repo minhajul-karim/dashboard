@@ -31,14 +31,15 @@ const updateProduct = async (product, prodId) => {
   return updatedProduct;
 };
 
-// Delete a product
+// Delete a product if found, else throw error
 const deleteProduct = async (prodId) => {
   try {
-    const result = await models.Product.deleteOne({ _id: prodId }).exec();
-    if (result.deletedCount === 0) {
-      return new NotFound(`No product found with id: ${prodId}`);
+    const product = await models.Product.findById(prodId);
+    if (product) {
+      const result = await models.Product.deleteOne({ _id: prodId }).exec();
+      return result;
     }
-    return result;
+    throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {
     return err;
   }

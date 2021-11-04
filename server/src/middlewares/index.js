@@ -14,7 +14,9 @@ const handleReqValidation = (req, res, next) => {
 
 // Default error handler
 const errorHandler = (err, req, res, next) => {
-  res.status(err.status || 500).json({ message: err.message });
+  const errorCode =
+    ('getCode' in err ? err.getCode() : null) || err.status || 500;
+  res.status(errorCode).json({ message: err.message });
 };
 
 // Not found handler

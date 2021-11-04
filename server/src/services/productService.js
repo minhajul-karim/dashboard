@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const models = require('../models/data-models');
+const { NotFound } = require('../utils/error');
 
 // Get all products
 const getAllProdcuts = async () => {
@@ -35,7 +36,7 @@ const deleteProduct = async (prodId) => {
   try {
     const result = await models.Product.deleteOne({ _id: prodId }).exec();
     if (result.deletedCount === 0) {
-      return createError(400, `No product found with id: ${prodId}`);
+      return new NotFound(`No product found with id: ${prodId}`);
     }
     return result;
   } catch (err) {

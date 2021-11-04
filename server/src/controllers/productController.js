@@ -41,12 +41,12 @@ const updateProductHandler = async (req, res, next) => {
 };
 
 const deleteProductHandler = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    await deleteProduct(id);
+  const { id } = req.params;
+  const result = await deleteProduct(id);
+  if (result instanceof Error) {
+    next(result);
+  } else {
     res.status(204).json();
-  } catch (err) {
-    next(err);
   }
 };
 

@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const models = require('../models/data-models');
 
 // Get all products
@@ -29,8 +30,18 @@ const updateProduct = async (product, prodId) => {
   return updatedProduct;
 };
 
-const deleteProduct = async (prodId) =>
-  models.Product.findOneAndRemove(prodId).exec();
+// Delete a product
+const deleteProduct = async (prodId) => {
+  try {
+    const result = await models.Product.deleteOne({ _id: prodId }).exec();
+    if (result.deletedCount === 0) {
+      return createError(400, `No product found with id: ${prodId}`);
+    }
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
 
 module.exports = {
   addProduct,

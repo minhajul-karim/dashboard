@@ -3,12 +3,17 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
+
+// Internal imports
 const productRouter = require('./router/productRouter');
-const { errorHandler, notFoundHandler } = require('./middlewares');
 const connectWithDB = require('./mongo');
 const configureRoute = require('./controllers');
+const { errorHandler, notFoundHandler } = require('./middlewares');
 
+// Create an express application
 const app = express();
+
+// Load env file
 dotenv.config();
 
 // Database connection
@@ -17,8 +22,10 @@ connectWithDB();
 // CORS
 app.use(cors());
 
-// Request parser
+// Parse incoming requests with JSON payloads
 app.use(express.json());
+
+// Parse incoming requests with form data
 app.use(express.urlencoded({ extended: true }));
 
 // Logger

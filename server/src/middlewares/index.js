@@ -14,8 +14,14 @@ const handleReqValidation = (req, res, next) => {
 
 // Default error handler
 const errorHandler = (err, req, res, next) => {
-  const errorCode =
-    ('getCode' in err ? err.getCode() : null) || err.status || 500;
+  let errorCode;
+  if ('getCode' in err) {
+    errorCode = err.getCode();
+  } else if (err.name === 'CastError') {
+    errorCode = 400;
+  } else {
+    errorCode = 500;
+  }
   res.status(errorCode).json({ message: err.message });
 };
 

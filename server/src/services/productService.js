@@ -8,10 +8,17 @@ const getAllProdcuts = async () => {
   return products;
 };
 
-// Get a product
-const getAProduct = async (id) => {
-  const product = await models.Product.findById(id);
-  return product;
+// Get a product by id
+const getProductById = async (prodId) => {
+  try {
+    const product = await models.Product.findById(prodId);
+    if (product) {
+      return product;
+    }
+    throw new NotFound(`No product found with id: ${prodId}`);
+  } catch (err) {
+    return err;
+  }
 };
 
 // Add a new product
@@ -24,15 +31,28 @@ const addProduct = async (product) => {
 };
 
 // Update a product
-const updateProduct = async (product, prodId) => {
-  const updatedProduct = models.Product.findByIdAndUpdate(prodId, product, {
-    returnDocument: 'after',
-  }).exec();
-  return updatedProduct;
+const update = async (updatedProduct, prodId) => {
+  try {
+    const product = await models.Product.findById(prodId);
+    if (product) {
+      product.skuCode = updatedProduct.skuCode;
+      product.productName = updatedProduct.productName;
+      product.productDescription = updatedProduct.productDescription;
+      product.weight = updatedProduct.weight;
+      product.cost = updatedProduct.cost;
+      product.price = updatedProduct.price;
+      product.category = updatedProduct.category;
+      product.save();
+      return product._id;
+    }
+    throw new NotFound(`No product found with id: ${prodId}`);
+  } catch (err) {
+    return err;
+  }
 };
 
 // Delete a product if found, else throw error
-const deleteProduct = async (prodId) => {
+const deleteById = async (prodId) => {
   try {
     const product = await models.Product.findById(prodId);
     if (product) {
@@ -48,7 +68,7 @@ const deleteProduct = async (prodId) => {
 module.exports = {
   addProduct,
   getAllProdcuts,
-  getAProduct,
-  updateProduct,
-  deleteProduct,
+  getProductById,
+  update,
+  deleteById,
 };

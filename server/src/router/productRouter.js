@@ -3,17 +3,14 @@ const {
   getByIdHandler,
   postHandler,
   putHandler,
-  getAllProdcutsHandler,
+  getHandler,
   deleteHandler,
 } = require('../controllers/productController');
 const { handleReqValidation } = require('../middlewares/index');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(getAllProdcutsHandler)
-  .post(handleReqValidation, postHandler);
+router.route('/').get(getHandler).post(handleReqValidation, postHandler);
 
 router
   .route('/:id')

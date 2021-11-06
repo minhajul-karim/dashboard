@@ -9,12 +9,12 @@ const {
 const { duplicateKeyErrorHandler } = require('../middlewares');
 
 // Handle retrieving all products
-const getAllProdcutsHandler = async (req, res, next) => {
-  try {
-    const products = await getAllProdcuts();
+const getHandler = async (req, res, next) => {
+  const products = await getAllProdcuts();
+  if (products instanceof Error) {
+    next(products);
+  } else {
     res.status(200).send(products);
-  } catch (err) {
-    next(err);
   }
 };
 
@@ -50,23 +50,19 @@ const deleteHandler = async (req, res, next) => {
 
 // Handle retrieving a product by id
 const getByIdHandler = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const product = await getProductById(id);
-    if (product instanceof Error) {
-      next(product);
-    } else {
-      res.status(200).send(product);
-    }
-  } catch (err) {
-    next(err);
+  const { id } = req.params;
+  const product = await getProductById(id);
+  if (product instanceof Error) {
+    next(product);
+  } else {
+    res.status(200).send(product);
   }
 };
 
 module.exports = {
-  getByIdHandler,
+  getHandler,
   postHandler,
   putHandler,
-  getAllProdcutsHandler,
   deleteHandler,
+  getByIdHandler,
 };

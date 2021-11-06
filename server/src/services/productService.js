@@ -8,8 +8,12 @@ const {
 
 // Get all products
 const getAllProdcuts = async () => {
-  const products = await models.Product.find();
-  return products;
+  try {
+    const products = await models.Product.find();
+    return products;
+  } catch (err) {
+    return err;
+  }
 };
 
 // Get a product by id

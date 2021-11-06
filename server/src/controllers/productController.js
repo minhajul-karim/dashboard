@@ -30,13 +30,13 @@ const addProductHandler = async (req, res, next) => {
 };
 
 const putHandler = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { body } = req;
-    await update(body, id);
+  const { id } = req.params;
+  const { body } = req;
+  const result = await update(body, id);
+  if (result instanceof Error) {
+    next(result);
+  } else {
     res.status(204).json();
-  } catch (err) {
-    duplicateKeyErrorHandler(err, req, res, next);
   }
 };
 

@@ -22,8 +22,15 @@ class NotFound extends GeneralError {
   }
 }
 
+class UnprocessableEntity extends GeneralError {
+  getCode() {
+    return 422;
+  }
+}
+
 module.exports = {
   GeneralError,
   BadRequest,
   NotFound,
+  UnprocessableEntity,
 };

@@ -1,6 +1,10 @@
 const createError = require('http-errors');
 const models = require('../models/data-models');
-const { NotFound } = require('../utils/error');
+const {
+  NotFound,
+  UnprocessableEntity,
+  GeneralError,
+} = require('../utils/error');
 
 // Get all products
 const getAllProdcuts = async () => {
@@ -30,7 +34,7 @@ const addProduct = async (product) => {
   return savedProduct._id;
 };
 
-// Update a product
+// Find a product and update that
 const update = async (updatedProduct, prodId) => {
   try {
     const product = await models.Product.findById(prodId);
@@ -42,8 +46,22 @@ const update = async (updatedProduct, prodId) => {
       product.cost = updatedProduct.cost;
       product.price = updatedProduct.price;
       product.category = updatedProduct.category;
-      product.save();
-      return product._id;
+      try {
+        await product.save();
+        return product._id;
+      } catch (err) {
+        // Handle duplicate product name, sku code error
+        if (err.name === 'MongoServerError' && err.code === 11000) {
+          const errorField = Object.keys(err.keyValue)[0];
+          const message =
+            errorField === 'productName'
+              ? 'Product name already exists'
+              : 'SKU code already exists';
+          throw new UnprocessableEntity(message);
+        } else {
+          throw new GeneralError('Product could not be updated');
+        }
+      }
     }
     throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {

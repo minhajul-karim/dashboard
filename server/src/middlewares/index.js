@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const { validateReq } = require('../models/request-models');
+const { BadRequest, UnprocessableEntity } = require('../utils/error');
 
 // Validate request to add product
 const handleReqValidation = (req, res, next) => {
@@ -7,7 +8,7 @@ const handleReqValidation = (req, res, next) => {
   if (result.error) {
     const { details } = result.error;
     const messages = details.map((item) => item.message).join(', ');
-    throw new Error(messages);
+    throw new BadRequest(messages);
   }
   next();
 };
@@ -33,11 +34,11 @@ const notFoundHandler = (req, res, next) => {
 const duplicateKeyErrorHandler = (err, req, res, next) => {
   if (err.name === 'MongoServerError' && err.code === 11000) {
     const errorField = Object.keys(err.keyValue)[0];
-    const errorMsg =
+    const message =
       errorField === 'productName'
         ? 'Product name already exists'
         : 'SKU code already exists';
-    next(createError(422, errorMsg));
+    throw new UnprocessableEntity(message);
   } else {
     next(err);
   }

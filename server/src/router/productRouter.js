@@ -1,7 +1,7 @@
 const express = require('express');
 const {
   getByIdHandler,
-  addProductHandler,
+  postHandler,
   putHandler,
   getAllProdcutsHandler,
   deleteHandler,
@@ -13,7 +13,7 @@ const router = express.Router();
 router
   .route('/')
   .get(getAllProdcutsHandler)
-  .post(handleReqValidation, addProductHandler);
+  .post(handleReqValidation, postHandler);
 
 router
   .route('/:id')

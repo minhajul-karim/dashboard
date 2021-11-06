@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 const {
-  addProduct,
+  saveProduct,
   getAllProdcuts,
   getProductById,
   update,
@@ -8,7 +8,7 @@ const {
 } = require('../services/productService');
 const { duplicateKeyErrorHandler } = require('../middlewares');
 
-// Get all products
+// Handle retrieving all products
 const getAllProdcutsHandler = async (req, res, next) => {
   try {
     const products = await getAllProdcuts();
@@ -18,17 +18,14 @@ const getAllProdcutsHandler = async (req, res, next) => {
   }
 };
 
-// Add new product
-const addProductHandler = async (req, res, next) => {
-  try {
-    const { body } = req;
-    const id = await addProduct(body);
-    res.status(201).send(id);
-  } catch (err) {
-    duplicateKeyErrorHandler(err, req, res, next);
-  }
+// Handle product addition
+const postHandler = async (req, res, next) => {
+  const { body } = req;
+  const id = await saveProduct(body);
+  res.status(201).send(id);
 };
 
+// Handle product update
 const putHandler = async (req, res, next) => {
   const { id } = req.params;
   const { body } = req;
@@ -40,6 +37,7 @@ const putHandler = async (req, res, next) => {
   }
 };
 
+// Handle product deletion
 const deleteHandler = async (req, res, next) => {
   const { id } = req.params;
   const result = await deleteById(id);
@@ -50,7 +48,7 @@ const deleteHandler = async (req, res, next) => {
   }
 };
 
-// Get a product
+// Handle retrieving a product by id
 const getByIdHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -67,7 +65,7 @@ const getByIdHandler = async (req, res, next) => {
 
 module.exports = {
   getByIdHandler,
-  addProductHandler,
+  postHandler,
   putHandler,
   getAllProdcutsHandler,
   deleteHandler,

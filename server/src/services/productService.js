@@ -26,12 +26,26 @@ const getProductById = async (prodId) => {
 };
 
 // Add a new product
-const addProduct = async (product) => {
+const saveProduct = async (product) => {
   // Rebuild all unique indexes
   await models.Product.syncIndexes();
-  const newProduct = new models.Product(product);
-  const savedProduct = await newProduct.save();
-  return savedProduct._id;
+  try {
+    const newProduct = new models.Product(product);
+    const savedProduct = await newProduct.save();
+    return savedProduct._id;
+  } catch (err) {
+    // Handle duplicate product name, sku code error
+    if (err.name === 'MongoServerError' && err.code === 11000) {
+      const errorField = Object.keys(err.keyValue)[0];
+      const message =
+        errorField === 'productName'
+          ? 'Product name already exists'
+          : 'SKU code already exists';
+      throw new UnprocessableEntity(message);
+    } else {
+      throw new GeneralError('Product could not be updated');
+    }
+  }
 };
 
 // Find a product and update that
@@ -84,7 +98,7 @@ const deleteById = async (prodId) => {
 };
 
 module.exports = {
-  addProduct,
+  saveProduct,
   getAllProdcuts,
   getProductById,
   update,

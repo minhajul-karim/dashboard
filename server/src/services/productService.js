@@ -27,6 +27,9 @@ const getProductById = async (prodId) => {
     }
     throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {
+    if (err instanceof NotFound) {
+      throw err;
+    }
     throw new BadRequest(err.message);
   }
 };
@@ -69,10 +72,10 @@ const update = async (updatedProduct, prodId) => {
     }
     throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {
-    if (err instanceof BadRequest) {
-      throw new BadRequest(err.message);
+    if (err instanceof NotFound || err instanceof UnprocessableEntity) {
+      throw err;
     }
-    throw err;
+    throw new BadRequest(err.message);
   }
 };
 
@@ -86,6 +89,9 @@ const deleteById = async (prodId) => {
     }
     throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {
+    if (err instanceof NotFound) {
+      throw err;
+    }
     throw new BadRequest(err.message);
   }
 };

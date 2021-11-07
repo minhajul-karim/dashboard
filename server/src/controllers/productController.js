@@ -35,7 +35,6 @@ const putHandler = async (req, res, next) => {
     await update(body, id);
     return res.status(204).json();
   } catch (err) {
-    console.log('in controller catch');
     return next(err);
   }
 };

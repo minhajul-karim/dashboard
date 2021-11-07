@@ -10,11 +10,12 @@ const {
 const handleReqValidation = (req, res, next) => {
   const result = validateReq(req.body);
   if (result.error) {
+    // Throw bad request exception with details
     const { details } = result.error;
     const messages = details.map((item) => item.message).join(', ');
     throw new BadRequest(messages);
   }
-  next();
+  return next();
 };
 
 // Default error handler
@@ -28,29 +29,13 @@ const handleErrors = (err, req, res, next) => {
     .json({ name: 'Interval Server Error', message: err.message });
 };
 
-// TODO: CAN WE DEPRECATE THIS?
 // Not found handler
 const notFoundHandler = (req, res, next) => {
-  res.json({});
-};
-
-// TODO: CAN WE DEPRECATE THIS?
-const duplicateKeyErrorHandler = (err, req, res, next) => {
-  if (err.name === 'MongoServerError' && err.code === 11000) {
-    const errorField = Object.keys(err.keyValue)[0];
-    const message =
-      errorField === 'productName'
-        ? 'Product name already exists'
-        : 'SKU code already exists';
-    throw new UnprocessableEntity(message);
-  } else {
-    next(err);
-  }
+  res.status(404).json({});
 };
 
 module.exports = {
   handleErrors,
   notFoundHandler,
   handleReqValidation,
-  duplicateKeyErrorHandler,
 };

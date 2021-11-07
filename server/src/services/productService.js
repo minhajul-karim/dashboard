@@ -39,7 +39,10 @@ const saveProduct = async (product) => {
   // Rebuild all unique indexes
   await models.Product.syncIndexes();
   try {
-    const newProduct = new models.Product(product);
+    const newProduct = new models.Product({
+      ...product,
+      createdAt: new Date(),
+    });
     const savedProduct = await newProduct.save();
     return savedProduct._id;
   } catch (err) {

@@ -1,6 +1,10 @@
 const createError = require('http-errors');
 const { validateReq } = require('../models/request-models');
-const { BadRequest, UnprocessableEntity } = require('../utils/error');
+const {
+  BadRequest,
+  UnprocessableEntity,
+  GeneralError,
+} = require('../utils/error');
 
 // Validate request to add product
 const handleReqValidation = (req, res, next) => {
@@ -14,23 +18,23 @@ const handleReqValidation = (req, res, next) => {
 };
 
 // Default error handler
-const errorHandler = (err, req, res, next) => {
-  let errorCode;
-  if ('getCode' in err) {
-    errorCode = err.getCode();
-  } else if (err.name === 'CastError') {
-    errorCode = 400;
-  } else {
-    errorCode = 500;
+const handleErrors = (err, req, res, next) => {
+  if (err instanceof GeneralError) {
+    const errCode = err.getCode();
+    return res.status(errCode).json({ name: err.name, message: err.message });
   }
-  res.status(errorCode).json({ message: err.message });
+  return res
+    .status(500)
+    .json({ name: 'Interval Server Error', message: err.message });
 };
 
+// TODO: CAN WE DEPRECATE THIS?
 // Not found handler
 const notFoundHandler = (req, res, next) => {
   res.json({});
 };
 
+// TODO: CAN WE DEPRECATE THIS?
 const duplicateKeyErrorHandler = (err, req, res, next) => {
   if (err.name === 'MongoServerError' && err.code === 11000) {
     const errorField = Object.keys(err.keyValue)[0];
@@ -45,7 +49,7 @@ const duplicateKeyErrorHandler = (err, req, res, next) => {
 };
 
 module.exports = {
-  errorHandler,
+  handleErrors,
   notFoundHandler,
   handleReqValidation,
   duplicateKeyErrorHandler,

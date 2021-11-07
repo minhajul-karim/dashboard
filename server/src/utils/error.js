@@ -11,18 +11,33 @@ class GeneralError extends Error {
 }
 
 class BadRequest extends GeneralError {
+  constructor(message) {
+    super(message);
+    this.name = 'BadRequest';
+  }
+
   getCode() {
     return 400;
   }
 }
 
 class NotFound extends GeneralError {
+  constructor(message) {
+    super(message);
+    this.name = 'NotFound';
+  }
+
   getCode() {
     return 404;
   }
 }
 
 class UnprocessableEntity extends GeneralError {
+  constructor(message) {
+    super(message);
+    this.name = 'DuplicateKeyError';
+  }
+
   getCode() {
     return 422;
   }

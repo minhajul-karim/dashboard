@@ -1,6 +1,8 @@
 const createError = require('http-errors');
 const models = require('../models/data-models');
+const { getMessage } = require('../utils/common');
 const {
+  BadRequest,
   NotFound,
   UnprocessableEntity,
   GeneralError,
@@ -12,7 +14,7 @@ const getAllProdcuts = async () => {
     const products = await models.Product.find();
     return products;
   } catch (err) {
-    return err;
+    throw new GeneralError('Something went wrong.');
   }
 };
 
@@ -25,7 +27,7 @@ const getProductById = async (prodId) => {
     }
     throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {
-    return err;
+    throw new BadRequest(err.message);
   }
 };
 
@@ -39,16 +41,8 @@ const saveProduct = async (product) => {
     return savedProduct._id;
   } catch (err) {
     // Handle duplicate product name, sku code error
-    if (err.name === 'MongoServerError' && err.code === 11000) {
-      const errorField = Object.keys(err.keyValue)[0];
-      const message =
-        errorField === 'productName'
-          ? 'Product name already exists'
-          : 'SKU code already exists';
-      throw new UnprocessableEntity(message);
-    } else {
-      throw new GeneralError('Product could not be updated');
-    }
+    const message = getMessage(err);
+    throw new UnprocessableEntity(message);
   }
 };
 
@@ -69,21 +63,16 @@ const update = async (updatedProduct, prodId) => {
         return product._id;
       } catch (err) {
         // Handle duplicate product name, sku code error
-        if (err.name === 'MongoServerError' && err.code === 11000) {
-          const errorField = Object.keys(err.keyValue)[0];
-          const message =
-            errorField === 'productName'
-              ? 'Product name already exists'
-              : 'SKU code already exists';
-          throw new UnprocessableEntity(message);
-        } else {
-          throw new GeneralError('Product could not be updated');
-        }
+        const message = getMessage(err);
+        throw new UnprocessableEntity(message);
       }
     }
     throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {
-    return err;
+    if (err instanceof BadRequest) {
+      throw new BadRequest(err.message);
+    }
+    throw err;
   }
 };
 
@@ -97,7 +86,7 @@ const deleteById = async (prodId) => {
     }
     throw new NotFound(`No product found with id: ${prodId}`);
   } catch (err) {
-    return err;
+    throw new BadRequest(err.message);
   }
 };
 

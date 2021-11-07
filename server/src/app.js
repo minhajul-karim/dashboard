@@ -1,6 +1,5 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 
@@ -8,7 +7,7 @@ const morgan = require('morgan');
 const productRouter = require('./router/productRouter');
 const connectWithDB = require('./mongo');
 const configureRoute = require('./controllers');
-const { errorHandler, notFoundHandler } = require('./middlewares');
+const { notFoundHandler, handleErrors } = require('./middlewares');
 
 // Create an express application
 const app = express();
@@ -38,6 +37,6 @@ configureRoute(app);
 app.use(notFoundHandler);
 
 // Common error handler
-app.use(errorHandler);
+app.use(handleErrors);
 
 module.exports = app;

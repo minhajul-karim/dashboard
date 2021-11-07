@@ -6,6 +6,7 @@ This is the frontend project for the Goods project, a product management applica
 - Add new products
 - Update information of a product
 - Delete a product
+- Search products
 
 The live version of this application can be accessed via the following URL.
 https://gooods.netlify.app/
@@ -24,7 +25,7 @@ The base API URL for this application can be configured in **src/App.js**
 import Axios from 'axios';
 
 Axios.defaults.baseURL =
-  process.env.NODE_ENV === 'development' || 'test'
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
     ? process.env.REACT_APP_DEV_API_URL
     : process.env.REACT_APP_PROD_API_URL;
 ```

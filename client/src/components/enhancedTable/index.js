@@ -205,6 +205,7 @@ export default function EnhancedTable() {
     shouldLoadProducts &&
       getProducts((data) => {
         setRows(data);
+        setFilteredRows(data);
       });
   }, [shouldLoadProducts]);
 

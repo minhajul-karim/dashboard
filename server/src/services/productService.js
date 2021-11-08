@@ -11,7 +11,7 @@ const {
 // Get all products
 const getAllProdcuts = async () => {
   try {
-    const products = await models.Product.find();
+    const products = await models.Product.find().sort({ createdAt: -1 }).exec();
     return products;
   } catch (err) {
     throw new GeneralError('Something went wrong.');
@@ -21,7 +21,7 @@ const getAllProdcuts = async () => {
 // Get a product by id
 const getProductById = async (prodId) => {
   try {
-    const product = await models.Product.findById(prodId);
+    const product = await models.Product.findById(prodId).exec();
     if (product) {
       return product;
     }
@@ -55,7 +55,7 @@ const saveProduct = async (product) => {
 // Find a product and update that
 const update = async (updatedProduct, prodId) => {
   try {
-    const product = await models.Product.findById(prodId);
+    const product = await models.Product.findById(prodId).exec();
     if (product) {
       product.skuCode = updatedProduct.skuCode;
       product.productName = updatedProduct.productName;
@@ -85,7 +85,7 @@ const update = async (updatedProduct, prodId) => {
 // Delete a product if found, else throw error
 const deleteById = async (prodId) => {
   try {
-    const product = await models.Product.findById(prodId);
+    const product = await models.Product.findById(prodId).exec();
     if (product) {
       const result = await models.Product.deleteOne({ _id: prodId }).exec();
       return result;

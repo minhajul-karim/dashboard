@@ -6,7 +6,7 @@ const morgan = require('morgan');
 // Internal imports
 const { transports } = require('winston');
 const productRouter = require('./router/productRouter');
-const connectWithDB = require('./mongo');
+const { connectWithDB } = require('./mongo');
 const configureRoutes = require('./controllers');
 const { infoLogger, errorLogger } = require('./logger');
 const {

@@ -4,6 +4,8 @@ const winstonFile = require('winston-daily-rotate-file');
 const winstonMongo = require('winston-mongodb');
 const { ElasticsearchTransport } = require('winston-elasticsearch');
 
+const { uri } = require('./mongo');
+
 // Create log message
 const getLogMessage = (req, res) => {
   const logObj = {
@@ -20,13 +22,6 @@ const fileInfoTransport = new winston.transports.DailyRotateFile({
   level: 'info',
 });
 
-// Error log file config
-const fileErrorTransport = new winston.transports.DailyRotateFile({
-  filename: 'logs/log-error-%DATE%.log',
-  datePattern: 'yyyy-MM-DD-HH',
-  level: 'error',
-});
-
 // Info logging to console & file config
 const infoLogger = () =>
   expressWinston.logger({
@@ -39,10 +34,27 @@ const infoLogger = () =>
     msg: getLogMessage,
   });
 
+// Error log file config
+const fileErrorTransport = new winston.transports.DailyRotateFile({
+  filename: 'logs/log-error-%DATE%.log',
+  datePattern: 'yyyy-MM-DD-HH',
+  level: 'error',
+});
+
+// MongoDB error log config
+const mongoErrorTransport = new winston.transports.MongoDB({
+  db: uri,
+  metaKey: 'meta',
+});
+
 // Error logging to console & file config
 const errorLogger = () =>
   expressWinston.errorLogger({
-    transports: [new winston.transports.Console(), fileErrorTransport],
+    transports: [
+      new winston.transports.Console(),
+      fileErrorTransport,
+      mongoErrorTransport,
+    ],
   });
 
 module.exports = { infoLogger, errorLogger };

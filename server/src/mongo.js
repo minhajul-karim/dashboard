@@ -19,4 +19,4 @@ const connectWithDB = () => {
     .catch((err) => console.log(err));
 };
 
-module.exports = connectWithDB;
+module.exports = { connectWithDB, uri };

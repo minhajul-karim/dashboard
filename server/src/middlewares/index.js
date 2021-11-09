@@ -31,13 +31,13 @@ const handleReqValidation = (req, res, next) => {
 
 // Default error handler
 const handleErrors = (err, req, res, next) => {
+  let errCode;
   if (err instanceof GeneralError) {
-    const errCode = err.getCode();
-    return res.status(errCode).json({ name: err.name, message: err.message });
+    errCode = err.getCode();
   }
-  return res
-    .status(500)
-    .json({ name: 'Interval Server Error', message: err.message });
+  const correlationId = req.headers['x-correlation-id'];
+  const { message } = err;
+  return res.status(errCode).json({ correlationId, message });
 };
 
 // Not found handler

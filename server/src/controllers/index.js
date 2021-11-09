@@ -1,7 +1,7 @@
 const routes = require('./routes');
 
-const configureRoute = (app) => {
+const configureRoutes = (app) => {
   app.use('/api', routes);
 };
 
-module.exports = configureRoute;
+module.exports = configureRoutes;

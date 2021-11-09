@@ -7,8 +7,8 @@ const morgan = require('morgan');
 const { transports } = require('winston');
 const productRouter = require('./router/productRouter');
 const connectWithDB = require('./mongo');
-const configureRoute = require('./controllers');
-const { infoLogger } = require('./logger');
+const configureRoutes = require('./controllers');
+const { infoLogger, errorLogger } = require('./logger');
 const {
   notFoundHandler,
   handleErrors,
@@ -39,11 +39,14 @@ app.use(processRequest);
 // Parse incoming requests with form data
 app.use(express.urlencoded({ extended: true }));
 
-// Logger
+// Info logger
 app.use(morgan('dev'));
 
 // Configure routes
-configureRoute(app);
+configureRoutes(app);
+
+// Error Logger
+app.use(errorLogger());
 
 // Not found handler
 app.use(notFoundHandler);

@@ -15,14 +15,16 @@ const getLogMessage = (req, res) => {
 
 // Info log file config
 const fileInfoTransport = new winston.transports.DailyRotateFile({
-  filename: 'log-info-%DATE%.log',
+  filename: 'logs/log-info-%DATE%.log',
   datePattern: 'yyyy-MM-DD-HH',
+  level: 'info',
 });
 
 // Error log file config
 const fileErrorTransport = new winston.transports.DailyRotateFile({
-  filename: 'log-error-%DATE%.log',
+  filename: 'logs/log-error-%DATE%.log',
   datePattern: 'yyyy-MM-DD-HH',
+  level: 'error',
 });
 
 // Info logging to console & file config
@@ -39,8 +41,8 @@ const infoLogger = () =>
 
 // Error logging to console & file config
 const errorLogger = () =>
-  expressWinston.logger({
+  expressWinston.errorLogger({
     transports: [new winston.transports.Console(), fileErrorTransport],
   });
 
-module.exports = { infoLogger };
+module.exports = { infoLogger, errorLogger };

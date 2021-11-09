@@ -6,6 +6,17 @@ const {
   GeneralError,
 } = require('../utils/error');
 
+// Get or set correlation id
+const processRequest = async (req, res, next) => {
+  let correlationId = req.headers['x-correlation-id'];
+  if (!correlationId) {
+    correlationId = Date.now().toString();
+    req.headers['x-correlation-id'] = correlationId;
+  }
+  res.set('x-correlation-id', correlationId);
+  return next();
+};
+
 // Validate request to add product
 const handleReqValidation = (req, res, next) => {
   const result = validateReq(req.body);
@@ -38,4 +49,5 @@ module.exports = {
   handleErrors,
   notFoundHandler,
   handleReqValidation,
+  processRequest,
 };

@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const models = require('../models/data-models');
 const { getMessage } = require('../utils/common');
 const {

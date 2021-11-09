@@ -7,7 +7,11 @@ const morgan = require('morgan');
 const productRouter = require('./router/productRouter');
 const connectWithDB = require('./mongo');
 const configureRoute = require('./controllers');
-const { notFoundHandler, handleErrors } = require('./middlewares');
+const {
+  notFoundHandler,
+  handleErrors,
+  processRequest,
+} = require('./middlewares');
 
 // Create an express application
 const app = express();
@@ -23,6 +27,9 @@ app.use(cors());
 
 // Parse incoming requests with JSON payloads
 app.use(express.json());
+
+// Process correlation id of request
+app.use(processRequest);
 
 // Parse incoming requests with form data
 app.use(express.urlencoded({ extended: true }));

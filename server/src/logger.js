@@ -22,13 +22,27 @@ const fileInfoTransport = new winston.transports.DailyRotateFile({
   level: 'info',
 });
 
+// Elastic search log config
+const esOptions = {
+  level: 'info',
+  clientOpts: { node: 'http://localhost:9200' },
+  indexPrefix: 'log-goods',
+};
+
+const esTransport = new ElasticsearchTransport(esOptions);
+
 // Info logging to console & file config
 const infoLogger = () =>
   expressWinston.logger({
-    transports: [new winston.transports.Console(), fileInfoTransport],
+    transports: [
+      new winston.transports.Console(),
+      fileInfoTransport,
+      esTransport,
+    ],
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.json()
+      winston.format.json(),
+      winston.format.prettyPrint()
     ),
     meta: true,
     msg: getLogMessage,
@@ -54,7 +68,14 @@ const errorLogger = () =>
       new winston.transports.Console(),
       fileErrorTransport,
       mongoErrorTransport,
+      esTransport,
     ],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.json()
+    ),
+    meta: true,
+    msg: '{"correlationId": {{req.headers["x-correlation-id"]}}, "error": "{{err.message}}"}',
   });
 
 module.exports = { infoLogger, errorLogger };

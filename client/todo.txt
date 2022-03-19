@@ -1,0 +1,7 @@
+[] - Handle request timeout via axios
+[] - Move to TypeScript
+[] - Write unit/integration tests
+[] - E2E tests with cypress
+[] - Move to React Router Dom v6
+[] - React Query for data fetching
+[] - Automate prettier formatting via husky
